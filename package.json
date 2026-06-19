@@ -1,0 +1,48 @@
+{
+	"name": "@Wadiou/tanstack-i18n-workspace",
+	"license": "MIT",
+	"private": true,
+	"type": "module",
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
+		"build": "turbo build",
+		"dev": "turbo run dev --ui=tui --filter=!example-*",
+		"check": "turbo run check",
+		"fix": "turbo run fix",
+		"typecheck": "turbo typecheck",
+		"test": "turbo run test",
+		"validate": "turbo run check typecheck test",
+		"clean": "turbo clean && rm -rf node_modules .turbo",
+		"prepare": "husky && git config core.hooksPath .husky",
+		"commit": "cz",
+		"commit:file": "git commit -F .commit/message",
+		"docs:dev": "pnpm --dir apps/docs run dev",
+		"docs:preview": "pnpm --dir apps/docs run build && pnpm --dir apps/docs run start"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "catalog:",
+		"@commitlint/cli": "catalog:",
+		"@commitlint/config-conventional": "catalog:",
+		"@commitlint/cz-commitlint": "catalog:",
+		"commitizen": "catalog:",
+		"husky": "catalog:",
+		"lint-staged": "catalog:",
+		"turbo": "^2.9.7",
+		"typescript": "^5.9.3"
+	},
+	"config": {
+		"commitizen": {
+			"path": "@commitlint/cz-commitlint"
+		}
+	},
+	"lint-staged": {
+		"*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --staged"
+	},
+	"engines": {
+		"node": ">=20"
+	},
+	"packageManager": "pnpm@11.5.0"
+}

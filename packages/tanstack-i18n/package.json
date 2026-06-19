@@ -1,0 +1,119 @@
+{
+  "name": "@Wadiou/tanstack-i18n",
+  "version": "0.0.1",
+  "description": "Locale routing, persistence, and TanStack Start/Router adapters for i18n",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "i18n",
+    "internationalization",
+    "locale",
+    "tanstack",
+    "tanstack-router",
+    "react-router",
+    "solid-router",
+    "tanstack-start",
+    "react",
+    "solid-js"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./adapters": {
+      "types": "./src/adapters/index.ts",
+      "import": "./dist/adapters/index.js",
+      "default": "./dist/adapters/index.js"
+    },
+    "./react-router": {
+      "types": "./src/react-router/index.ts",
+      "import": "./dist/react-router/index.js",
+      "default": "./dist/react-router/index.js"
+    },
+    "./react": {
+      "types": "./src/react/index.ts",
+      "import": "./dist/react/index.js",
+      "default": "./dist/react/index.js"
+    },
+    "./solid": {
+      "types": "./src/solid/index.ts",
+      "import": "./dist/solid/index.js",
+      "default": "./dist/solid/index.js"
+    },
+    "./solid-router": {
+      "types": "./src/solid-router/index.ts",
+      "import": "./dist/solid-router/index.js",
+      "default": "./dist/solid-router/index.js"
+    },
+    "./react-start": {
+      "types": "./src/react-start/index.ts",
+      "import": "./dist/react-start/index.js",
+      "default": "./dist/react-start/index.js"
+    },
+    "./solid-start": {
+      "types": "./src/solid-start/index.ts",
+      "import": "./dist/solid-start/index.js",
+      "default": "./dist/solid-start/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.core.json && tsc -p tsconfig.react.json && tsc -p tsconfig.solid.json",
+    "dev": "tsc -p tsconfig.core.json --watch",
+    "clean": "rm -rf dist tsconfig.*.tsbuildinfo .turbo",
+    "check": "ultracite check .",
+    "fix": "ultracite fix .",
+    "typecheck": "tsc --noEmit -p tsconfig.core.json && tsc --noEmit -p tsconfig.react.json && tsc --noEmit -p tsconfig.solid.json && tsc --noEmit -p tsconfig.test.json",
+    "test": "vitest run --typecheck"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "@tanstack/react-router": "^1.170.0",
+    "solid-js": "^1.9.0",
+    "@tanstack/solid-router": "^1.170.0",
+    "@tanstack/react-start": "^1.168.0",
+    "@tanstack/solid-start": "^1.168.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "@tanstack/react-router": {
+      "optional": true
+    },
+    "solid-js": {
+      "optional": true
+    },
+    "@tanstack/solid-router": {
+      "optional": true
+    },
+    "@tanstack/react-start": {
+      "optional": true
+    },
+    "@tanstack/solid-start": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@tanstack/react-router": "^1.170.7",
+    "@tanstack/solid-router": "^1.170.0",
+    "@tanstack/react-start": "^1.168.10",
+    "@tanstack/solid-start": "^1.168.10",
+    "@types/react": "^19.0.0",
+    "react": "^19.0.0",
+    "solid-js": "^1.9.0",
+    "typescript": "^5.7.3",
+    "ultracite": "catalog:",
+    "vitest": "^2.1.9"
+  }
+}

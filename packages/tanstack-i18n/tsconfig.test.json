@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".",
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/react/**",
+    "src/solid/**",
+    "src/solid-router/**",
+    "src/react-router/index.ts",
+    "test/solid/**"
+  ]
+}

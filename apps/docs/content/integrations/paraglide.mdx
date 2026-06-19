@@ -1,0 +1,406 @@
+---
+title: Paraglide
+description: Pair TanStack i18n locale routing with Paraglide compile-time messages.
+---
+
+**Supported Frameworks:** `React`, `Solid`
+
+<Callout type="info">
+  **Runnable References:**
+  - **React Start (SSR)**: [`examples/react/start/paraglide/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/paraglide)
+  - **React Router (SPA)**: [`examples/react/router/paraglide/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/router/paraglide)
+  - **Solid Start (SSR)**: [`examples/solid/start/paraglide/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/solid/start/paraglide)
+  - **Solid Router (SPA)**: [`examples/solid/router/paraglide/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/solid/router/paraglide)
+</Callout>
+
+**Paraglide JS** compiles your JSON translation files into optimized JavaScript modules. While standard i18n libraries require wrapping the application in a message context provider, Paraglide messages are pure functions that read the active language tag from its internal, global runtime. 
+
+Integrating it with TanStack i18n only requires synchronizing the router's active locale with the Paraglide runtime tags.
+
+### Responsibility split
+
+| Layer | Owns | Package |
+| ----- | ---- | ------- |
+| URL locale, redirects, cookie, `setLocale` | Routing + persist | `@Wadiou/tanstack-i18n` |
+| Compile-time translation functions, parameters | Translation | `@inlang/paraglide-js` |
+
+---
+
+<Steps>
+<Step>
+
+### Install & Configure Paraglide
+
+Install Paraglide CLI and package dependencies, then initialize your Inlang configuration:
+
+```bash
+pnpm add -D @inlang/paraglide-js
+```
+
+Ensure your `project.inlang/settings.json` matches your supported locales:
+
+```json
+{
+  "$schema": "https://inlang.com/schema/project-settings",
+  "sourceLanguageTag": "en",
+  "languageTags": ["en", "ar"],
+  "modules": [
+    "https://cdn.jsdelivr.net/permalink/1/registry.inlang.com/plugin/m-function-matcher/v0"
+  ]
+}
+```
+
+Define your messages in JSON catalogs (e.g. `messages/en.json` and `messages/ar.json`) and run the compiler:
+
+```bash
+pnpm paraglide-js compile --project ./project.inlang
+```
+
+This generates type-safe helper modules under your source folder (typically `src/paraglide/`).
+
+</Step>
+<Step>
+
+### Sync Active Locale in Router beforeLoad
+
+Import the `setLocale` runtime helper from the compiled `paraglide/runtime` directory, and call it inside the router's `beforeLoad` hook. This ensures that any subsequent translation functions read the correct locale tag.
+
+<Tabs items={['React', 'Solid']}>
+<Tab value="React">
+
+```tsx
+// src/routes/__root.tsx
+import { createRootRouteWithContext } from "@tanstack/react-router";
+import { getLocale } from "@/locale";
+import { setLocale } from "@/paraglide/runtime";
+
+export const Route = createRootRouteWithContext<{ locale: string }>()({
+  beforeLoad: async () => {
+    const active = await getLocale();
+    
+    // Sync the active locale with the Paraglide runtime
+    setLocale(active);
+    
+    return { locale: active };
+  }
+});
+```
+
+</Tab>
+<Tab value="Solid">
+
+```tsx
+// src/routes/__root.tsx
+import { createRootRouteWithContext } from "@tanstack/solid-router";
+import { getLocale } from "@/locale";
+import { setLocale } from "@/paraglide/runtime";
+
+export const Route = createRootRouteWithContext<{ locale: string }>()({
+  beforeLoad: async () => {
+    const active = await getLocale();
+    
+    // Sync the active locale with the Paraglide runtime
+    setLocale(active);
+    
+    return { locale: active };
+  }
+});
+```
+
+</Tab>
+</Tabs>
+
+</Step>
+<Step>
+
+### Create the Locale Provider
+
+Create the local bridge provider utilizing `@Wadiou/tanstack-i18n` framework bindings:
+
+<Tabs items={['React', 'Solid']}>
+<Tab value="React">
+
+```tsx
+// src/i18n/provider.tsx
+import { createLocaleProvider } from "@Wadiou/tanstack-i18n/react";
+import { locale } from "@/locale";
+import { Route } from "@/routes/__root";
+
+// Bridge hook that reads the active locale from TanStack Router context
+export function useLocale() {
+  return Route.useRouteContext().locale;
+}
+
+export const { LocaleProvider, useLocaleContext } = createLocaleProvider({
+  runtime: locale,
+  useLocale,
+});
+```
+
+</Tab>
+<Tab value="Solid">
+
+```tsx
+// src/i18n/provider.tsx
+import { createLocaleProvider } from "@Wadiou/tanstack-i18n/solid";
+import { locale } from "@/locale";
+import { Route } from "@/routes/__root";
+
+// Bridge hook that reads the active locale from TanStack Router context
+export function useLocale() {
+  return Route.useRouteContext().locale;
+}
+
+export const { LocaleProvider, useLocaleContext } = createLocaleProvider({
+  runtime: locale,
+  useLocale,
+});
+```
+
+</Tab>
+</Tabs>
+
+Wrap the provider in your root component:
+
+<Tabs items={['React', 'Solid']}>
+<Tab value="React">
+
+```tsx
+// src/routes/__root.tsx
+import { Outlet } from "@tanstack/react-router";
+import { LocaleProvider } from "@/i18n/provider";
+
+export function RootComponent() {
+  return (
+    <LocaleProvider>
+      <Outlet />
+    </LocaleProvider>
+  );
+}
+```
+
+</Tab>
+<Tab value="Solid">
+
+```tsx
+// src/routes/__root.tsx
+import { Outlet } from "@tanstack/solid-router";
+import { LocaleProvider } from "@/i18n/provider";
+
+export function RootComponent() {
+  return (
+    <LocaleProvider>
+      <Outlet />
+    </LocaleProvider>
+  );
+}
+```
+
+</Tab>
+</Tabs>
+
+</Step>
+<Step>
+
+### Render Translations
+
+Import your compiled messages directly and call them as functions. No hook wrappers or key dictionaries are needed:
+
+<Callout type="info">
+  Paraglide message functions are plain JS calls — in **React**, components re-render on every state change so translations always use the current locale. In **Solid**, JSX is evaluated once, so message functions must be wrapped with the `t()` utility below to reactively track locale switches.
+</Callout>
+
+<Tabs items={['React', 'Solid']}>
+<Tab value="React">
+
+```tsx
+// src/routes/{-$locale}/index.tsx
+import { createFileRoute } from "@tanstack/react-router";
+import * as m from "@/paraglide/messages";
+
+export const Route = createFileRoute("/{-$locale}/")({
+  component: HomePage,
+});
+
+function HomePage() {
+  return (
+    <div>
+      <h1>{m.hello()}</h1>
+      <p>{m.welcome({ name: "User" })}</p>
+    </div>
+  );
+}
+```
+
+</Tab>
+<Tab value="Solid">
+
+Create a small `t` utility that wraps message functions in a Solid memo tracking the current locale:
+
+```tsx
+// src/i18n/t.ts
+import { type Accessor, createMemo } from "solid-js";
+import { useLocaleContext } from "./provider";
+
+export function t<T>(fn: () => T): Accessor<T> {
+  const ctx = useLocaleContext();
+  const readLocale = () => ctx.locale;
+  return createMemo(() => {
+    readLocale();
+    return fn();
+  });
+}
+```
+
+Then use it in your components:
+
+```tsx
+// src/routes/{-$locale}/index.tsx
+import { createFileRoute } from "@tanstack/solid-router";
+import { t } from "@/i18n/t";
+import { hello, welcome } from "@/paraglide/messages";
+
+export const Route = createFileRoute("/{-$locale}/")({
+  component: HomePage,
+});
+
+function HomePage() {
+  const tHello = t(hello);
+  const tWelcome = t(() => welcome({ name: "User" }));
+  return (
+    <div>
+      <h1>{tHello()}</h1>
+      <p>{tWelcome()}</p>
+    </div>
+  );
+}
+```
+
+</Tab>
+</Tabs>
+
+</Step>
+<Step>
+
+### Implement Language Switcher
+
+Expose a UI dropdown or link switcher using the `useLocaleContext` hook to handle updates:
+
+<Tabs items={['React', 'Solid']}>
+<Tab value="React">
+
+```tsx
+// src/components/header.tsx
+import { useLocaleContext } from "@/i18n/provider";
+
+export function Header() {
+  const { locale: active, setLocale } = useLocaleContext();
+
+  return (
+    <header>
+      <span>Active: {active}</span>
+      <button onClick={() => setLocale("ar")}>Arabic</button>
+      <button onClick={() => setLocale("en")}>English</button>
+    </header>
+  );
+}
+```
+
+</Tab>
+<Tab value="Solid">
+
+```tsx
+// src/components/header.tsx
+import { createSelector, For } from "solid-js";
+import { useLocaleContext } from "@/i18n/provider";
+
+export function Header() {
+  const { locale, setLocale } = useLocaleContext();
+  const isSelected = createSelector(locale);
+
+  return (
+    <header>
+      <select
+        onChange={(e) => setLocale(e.currentTarget.value)}
+        value={locale()}
+      >
+        <For each={["en", "ar"]}>
+          {(code) => (
+            <option selected={isSelected(code)} value={code}>
+              {code === "en" ? "English" : "Arabic"}
+            </option>
+          )}
+        </For>
+      </select>
+    </header>
+  );
+}
+```
+
+<Callout type="warning">
+  In SolidJS, dynamic `<select>` selection states can experience hydration mismatches on hard reloads. To ensure selection state reactivity stays synchronized, use SolidJS's `createSelector` utility to bind the `selected` attribute on `<option>` tags.
+</Callout>
+
+</Tab>
+</Tabs>
+
+</Step>
+</Steps>
+
+---
+
+## SPA vs. SSR Layouts
+
+Depending on your router choice, adapt how you handle document text direction (`rtl` vs. `ltr`) and lang attributes:
+
+- **Single Page Application (SPA)**: Since the DOM is always loaded, apply updates directly inside `beforeLoad` on the client:
+  ```ts
+  beforeLoad: async () => {
+    const active = await getLocale();
+    setLocale(active);
+    document.documentElement.setAttribute("lang", active);
+    document.documentElement.setAttribute("dir", active === "ar" ? "rtl" : "ltr");
+    return { locale: active };
+  }
+  ```
+- **Server Side Rendering (SSR)**: In frameworks like TanStack Start, bind the root `<html>` attributes dynamically in your root document layout based on the active router context:
+  <Tabs items={['React', 'Solid']}>
+  <Tab value="React">
+  
+  ```tsx
+  // src/routes/__root.tsx
+  function RootComponent() {
+    const { locale } = Route.useRouteContext();
+    return (
+      <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+        {/* ... */}
+      </html>
+    );
+  }
+  ```
+  
+  </Tab>
+  <Tab value="Solid">
+  
+  ```tsx
+  // src/routes/__root.tsx
+  function RootComponent() {
+    const { locale } = Route.useRouteContext();
+    return (
+      <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+        {/* ... */}
+      </html>
+    );
+  }
+  ```
+  
+  </Tab>
+  </Tabs>
+
+---
+
+## Related
+
+- [Integrations hub](/integrations)
+- [Change locale](/guides/change-locale)
+- [TanStack Start integration](/guides/tanstack-start)

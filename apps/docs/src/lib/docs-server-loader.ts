@@ -1,0 +1,17 @@
+import { notFound } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { source } from "@/lib/source";
+
+export const docsServerLoader = createServerFn({ method: "GET" })
+  .validator((slugs: string[]) => slugs)
+  .handler(async ({ data: slugs }) => {
+    const page = source.getPage(slugs);
+    if (!page) {
+      throw notFound();
+    }
+
+    return {
+      path: page.path,
+      pageTree: await source.serializePageTree(source.getPageTree()),
+    };
+  });

@@ -1,0 +1,35 @@
+---
+title: Integrations
+description: Pair TanStack i18n locale routing with use-intl and other message libraries.
+---
+
+TanStack i18n owns **locale in the URL** — redirects, cookies, server entry, and `setLocale`. A translation library owns **message catalogs**, `t()`, and formatting. Integrations show how to wire both without coupling routing to copy.
+
+## Split of concerns
+
+| Layer | Owns |
+| ----- | ---- |
+| `@Wadiou/tanstack-i18n` | URL locale, first visit, persist/infer adapters, `getLocale`, `setLocale` |
+| Message library | JSON catalogs, translated UI, dates and numbers |
+
+Overview table: [Get started — locale vs messages](/get-started#locale-vs-messages).
+
+## Why use-intl first
+
+**[use-intl](https://next-intl.dev/docs/environments/core-library)** is the framework-agnostic core from the next-intl ecosystem — same hooks (`useTranslations`, `useLocale`) whether you stay on TanStack Start or later adopt next-intl on Next.js. We document it as the primary recipe; other libraries follow the same pattern with different provider APIs.
+
+## Prerequisites
+
+Complete the guides through **[Change locale](/guides/change-locale)** — config, runtime, Start server entry, Router helpers, and `createLocaleProvider` / `setLocale` on the same bilingual marketing site (`en`, `ar`).
+
+<Cards>
+  <Card title="use-intl (React)" href="/integrations/use-intl"  description="Full step-by-step — IntlProvider, loadMessages, root beforeLoad, switch flow." />
+  <Card title="Paraglide (React & Solid)" href="/integrations/paraglide"  description="Compile-time messages — recipe coming soon." />
+  <Card title="react-intl (React)" href="/integrations/react-intl"  description="FormatJS / react-intl — recipe coming soon." />
+  <Card title="react-i18next (React)" href="/integrations/react-i18next"  description="i18next / react-i18next — recipe coming soon." />
+  <Card title="Solid Primitives i18n (Solid)" href="/integrations/solid-primitives-i18n"  description="Lightweight reactive i18n for SolidJS — recipe coming soon." />
+</Cards>
+
+## What's next
+
+If you are migrating from a library that **also owned URL locale routing** (next-intl App Router middleware, Remix i18n stacks), see **Migration** when that section ships. use-intl alone is an integration — it pairs with this package; it is not a migration source.

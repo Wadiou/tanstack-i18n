@@ -1,0 +1,124 @@
+---
+title: Get started
+description: Install @Wadiou/tanstack-i18n, define a locale runtime, and understand what the library owns vs your message library.
+icon: Rocket
+---
+
+Install the package and wire locale routing in TanStack Start or Router. For full scope, see the [home page](/).
+
+## Install
+
+<Tabs items={['pnpm', 'bun', 'npm', 'yarn']}>
+<Tab value="pnpm">
+
+```bash
+pnpm add @Wadiou/tanstack-i18n
+```
+
+</Tab>
+<Tab value="npm">
+
+```bash
+npm install @Wadiou/tanstack-i18n
+```
+
+</Tab>
+<Tab value="yarn">
+
+```bash
+yarn add @Wadiou/tanstack-i18n
+```
+
+</Tab>
+<Tab value="bun">
+
+```bash
+bun add @Wadiou/tanstack-i18n
+```
+
+</Tab>
+</Tabs>
+
+The core package gives you locale config and runtime. Add subpaths for the stack you actually use:
+
+- **React + TanStack Start and Router** — `@Wadiou/tanstack-i18n/react` for a locale provider, plus `@Wadiou/tanstack-i18n/react-router` and `@Wadiou/tanstack-i18n/react-start` when you wire routing and the server entry.
+- **Solid** — `@Wadiou/tanstack-i18n/solid` with `@Wadiou/tanstack-i18n/solid-router` and `@Wadiou/tanstack-i18n/solid-start` for the same roles.
+
+You do not need every subpath on day one. Export and peer details are in [Exports and peers](/reference/exports).
+
+## Define config and runtime
+
+<Steps>
+<Step>
+
+Create your locale config with `defineLocaleConfig` — locales, URL prefix mode, and adapters.
+
+</Step>
+<Step>
+
+Bind it with `createLocaleRuntime` and export the runtime for your app.
+
+</Step>
+</Steps>
+
+```ts
+import {
+  defineLocaleConfig,
+  createLocaleRuntime,
+} from "@Wadiou/tanstack-i18n";
+import { acceptLanguage } from "@Wadiou/tanstack-i18n/adapters";
+
+const config = defineLocaleConfig({
+  locales: ["en", "ar"],
+  defaultLocale: "en",
+  adapters: {
+    infer: [acceptLanguage()],
+  },
+});
+
+export const locale = createLocaleRuntime(config);
+```
+
+### Wire your stack — guided journey
+
+The **Guides** section walks one bilingual marketing site (`en`, `ar`) from config to language switcher. Follow in sidebar order:
+
+1. **[Configuration](/guides/configuration)** — build `defineLocaleConfig` step by step
+2. **[URL prefix modes](/guides/url-prefix)** — `always`, `as-needed`, `never`
+3. **[Locale runtime](/guides/locale-runtime)** — bind `createLocaleRuntime`
+4. **[Adapters](/guides/adapters)** — cookie, infer, ordering
+5. **[TanStack Start](/guides/tanstack-start)** — server entry wrapper
+6. **[TanStack Router](/guides/tanstack-router)** — localized routes and links
+7. **[Change locale](/guides/change-locale)** — switcher + provider
+
+## Runtime overview
+
+`createLocaleRuntime` returns a `LocaleRuntime`. Full method reference, examples, and `getRequest`: **[Locale runtime](/guides/locale-runtime)**.
+
+| Method | Role |
+| ------ | ---- |
+| `config` | Your `LocaleConfig` from `defineLocaleConfig` |
+| `getLocale()` | Active locale — URL segment, then persist adapters, then `defaultLocale` |
+| `localizeUrl()` / `deLocalizeUrl()` | Add or strip locale segments in pathnames |
+| `createServerEntry()` | TanStack Start request handler — [Behavior contract](/reference/behavior) |
+
+User-initiated locale switching belongs in React or Solid via **`setLocale`** from [Change locale](/guides/change-locale) — not by calling the runtime directly from app UI.
+
+On React or Solid, use `createLocaleProvider` — [Change locale](/guides/change-locale).
+
+## Locale vs messages
+
+| Concern | TanStack i18n | Translation library |
+| ------- | ------------- | ------------------- |
+| Locale in URL | Yes | No |
+| Redirects, cookies, first visit | Yes | No |
+| Message catalogs, `t()`, formatting | No | Yes |
+| Language switcher + router navigation | Yes | Via `setLocale` from [Change locale](/guides/change-locale) |
+
+## Message libraries
+
+Pair this package with any catalog / formatting library. Common choices include **use-intl**, Paraglide, and react-intl. We document **use-intl** first as the primary integration example — full step-by-step guide: **[use-intl](/integrations/use-intl)**.
+
+## What's next
+
+Start the guided journey at **[Configuration](/guides/configuration)** — each guide extends the same marketing site example. Then wire messages in **[use-intl](/integrations/use-intl)**. API lookup: [Exports and peers](/reference/exports) and [Behavior contract](/reference/behavior).

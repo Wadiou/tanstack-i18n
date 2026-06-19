@@ -1,0 +1,25 @@
+---
+title: TanStack i18n
+description: Locale routing for TanStack Start and Router — bring your own translation library.
+---
+
+TanStack i18n handles **locale routing** for TanStack Start and Router. Use it for URL segments, first-visit redirects, and persisting or inferring locale — then pair it with your own translation library for strings.
+
+## What it handles
+
+- Locale segments in URLs — prefix always, hide for default, or custom paths per language
+- First-visit redirects and optional detect mode (banner UX without redirect)
+- Persist adapters (cookie, server function) and infer adapters (`Accept-Language`)
+- TanStack Start server entry — pass, redirect, sync cookie, detect
+- Router URL helpers and `createLocaleProvider` / `setLocale` for language switching
+
+## What it does not do
+
+It does **not** ship message catalogs, `t()` helpers, or formatting. Bring your own translation library for strings.
+
+<Cards>
+  <Card title="Get started" href="/get-started" icon="Rocket" description="Install and wire createLocaleRuntime." />
+  <Card title="Guides" href="/guides/configuration" icon="BookOpen" description="Configuration, adapters, Start, Router." />
+  <Card title="Integrations" href="/integrations" icon="Plug" description="Pair locale routing with use-intl and other message libraries." />
+  <Card title="Reference" href="/reference/exports" icon="FileCode" description="Subpath exports, peers, and behavior contract." />
+</Cards>

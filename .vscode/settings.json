@@ -1,0 +1,28 @@
+{
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "biomejs.biome",
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.patterns": {
+		"package.json": "pnpm-lock.yaml, pnpm-workspace.yaml, .npmrc, turbo.json, tsconfig*.json, .gitignore, biome.jsonc, .env*"
+	},
+	"cSpell.words": [
+		"biomejs",
+		"fumadocs",
+		"i18n",
+		"tanstack",
+		"Turborepo",
+		"ultracite",
+		"Vercel",
+		"vitest"
+	]
+}

@@ -1,0 +1,73 @@
+# Dependencies
+**/node_modules/
+.pnp
+.pnp.js
+
+# Build / output
+**/dist/
+**/out/
+**/build/
+**/.turbo/
+**/.output/
+
+# Testing
+**/coverage/
+
+# TypeScript build info
+**/*.tsbuildinfo
+
+# Fumadocs MDX generated (regenerate via fumadocs-mdx / build / dev)
+apps/docs/.source/
+apps/docs-dev/.source/
+
+# TanStack Router generated (regenerate via dev / build)
+**/routeTree.gen.ts
+
+# Local staging docs content (apps/docs-dev only)
+apps/docs-dev/content/tmp/
+
+# Local env
+.env
+.env.local
+.env.*.local
+!.env.example
+**/.env
+**/.env.local
+**/.env.*.local
+!**/.env.example
+
+# Debug / logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+**/*.log
+
+# Vercel
+.vercel/
+
+# IDEs
+.idea/
+*.swp
+*.swo
+
+# Commit draft (local only; copy from message.example)
+.commit/message
+
+# Local scratch (handoff notes, experiments)
+tmp/
+
+# Misc
+**/*.bak
+.DS_Store
+*.pem
+
+# Bun
+bun.lockb
+bun.lock
+
+# Cursor / skills metadata
+skills-lock.json
+
+# pnpm
+.pnpm-store/

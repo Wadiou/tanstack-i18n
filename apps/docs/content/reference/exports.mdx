@@ -1,0 +1,58 @@
+---
+title: Exports and peers
+description: Package subpath exports and optional peer dependencies — install only what your stack uses.
+---
+
+`@Wadiou/tanstack-i18n` ships as a core entry plus framework subpaths. Install the core package first, then add subpaths for the stack you actually use.
+
+## Subpath exports
+
+| Subpath | Purpose | Guide |
+| ------- | ------- | ----- |
+| `@Wadiou/tanstack-i18n` | `defineLocaleConfig`, `createLocaleRuntime`, and core constants/types | [Configuration](/guides/configuration), [Locale runtime](/guides/locale-runtime) |
+| `@Wadiou/tanstack-i18n/adapters` | Adapter factories (`cookie`, `localStorage`, `acceptLanguage`, `serverFn`) and their options | [Adapters](/guides/adapters) |
+| `@Wadiou/tanstack-i18n/react-router` | `createNavigation`, `createToLocalizedRoute` for React | [TanStack Router](/guides/tanstack-router) |
+| `@Wadiou/tanstack-i18n/solid-router` | `createNavigation`, `createToLocalizedRoute` for Solid | [TanStack Router](/guides/tanstack-router) |
+| `@Wadiou/tanstack-i18n/react` | `createLocaleProvider`, `useLocaleContext` | [Change locale](/guides/change-locale), [use-intl](/integrations/use-intl) |
+| `@Wadiou/tanstack-i18n/solid` | Solid `createLocaleProvider` | [Change locale](/guides/change-locale) |
+| `@Wadiou/tanstack-i18n/react-start` | `createServerEntry` and React helpers | [TanStack Start](/guides/tanstack-start) |
+| `@Wadiou/tanstack-i18n/solid-start` | `createServerEntry` and Solid helpers | [TanStack Start](/guides/tanstack-start) |
+
+The core entry covers locale config and runtime. Adapters are loaded from the `/adapters` subpath. Other subpaths add framework bindings — you do not need every subpath on day one.
+
+## Peer dependencies
+
+Peers are optional — install only what your stack uses:
+
+| Entry | Peers |
+| ----- | ----- |
+| `@Wadiou/tanstack-i18n` | — |
+| `@Wadiou/tanstack-i18n/react` | `react` |
+| `@Wadiou/tanstack-i18n/solid` | `solid-js` |
+| `@Wadiou/tanstack-i18n/react-router` | `@tanstack/react-router` |
+| `@Wadiou/tanstack-i18n/solid-router` | `@tanstack/solid-router` |
+| `@Wadiou/tanstack-i18n/react-start` | `@tanstack/react-start` |
+| `@Wadiou/tanstack-i18n/solid-start` | `@tanstack/solid-start` |
+
+## Install only what you need
+
+- **React + TanStack Start and Router** — core, `@Wadiou/tanstack-i18n/react`, `@Wadiou/tanstack-i18n/react-router`, and `@Wadiou/tanstack-i18n/react-start` when you wire routing and the server entry.
+- **Solid** — core, `@Wadiou/tanstack-i18n/solid`, `@Wadiou/tanstack-i18n/solid-router`, and `@Wadiou/tanstack-i18n/solid-start` for the same roles.
+
+See [Install](/get-started#install) for package manager commands and a first config snippet.
+
+## Default constants
+
+Exported from the core entry for docs and custom adapters:
+
+| Constant | Value | Used when |
+| -------- | ----- | --------- |
+| `DEFAULT_URL_PREFIX` | `"as-needed"` | `url.prefix` omitted |
+| `DEFAULT_COOKIE_NAME` | `"LOCALE"` | `cookie()` with no `name` |
+| `DEFAULT_DETECTED_LOCALE_HEADER` | `"X-Locale-Detected"` | `firstVisit.detectedLocaleHeader` omitted |
+
+Full normalization table: [Configuration — Defaults at a glance](/guides/configuration#defaults-at-a-glance).
+
+For runtime guarantees (redirects, `getLocale` order), see [Behavior contract](/reference/behavior).
+
+Type details live in package JSDoc and `.d.ts` files — there are no generated TypeDoc pages in v1.

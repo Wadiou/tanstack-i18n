@@ -1,0 +1,11 @@
+{
+  "hero": "Welcome to our site",
+  "aboutLink": "About us",
+  "homeLink": "Home",
+  "dashboardLink": "Dashboard (Protected)",
+  "aboutTitle": "About",
+  "aboutDescription": "This is the about page.",
+  "aboutHomeLink": "Go Home",
+  "programmaticHome": "Programmatic Home",
+  "switcherLabel": "Switch Language"
+}

@@ -1,0 +1,336 @@
+---
+title: Solid Primitives i18n (Solid)
+description: Pair TanStack i18n locale routing with Solid Primitives i18n.
+---
+
+**Supported Frameworks:** `Solid`
+
+<Callout type="info">
+  **Runnable References:**
+  - **Solid Start (SSR)**: [`examples/solid/start/solid-primitives-i18n/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/solid/start/solid-primitives-i18n)
+  - **Solid Router (SPA)**: [`examples/solid/router/solid-primitives-i18n/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/solid/router/solid-primitives-i18n)
+</Callout>
+
+**@solid-primitives/i18n** is a lightweight, reactive translation primitive library for SolidJS. TanStack i18n handles URL locale routing, client/server entry state, cookies, and programmatic transitions — `@solid-primitives/i18n` handles dictionary-based translation rendering in your Solid components.
+
+This guide explains how to split translation catalogs into namespaces, merge and flatten them reactively with `@solid-primitives/i18n`, expose a fully typesafe single-signature hook supporting nested paths, and resolve select-element hydration states.
+
+## Prerequisites
+
+- Guides through [Change locale](/guides/change-locale)
+- [Locale runtime](/guides/locale-runtime) exports `locale`
+- [TanStack Start](/guides/tanstack-start) server entry wraps `handler.fetch` (if using Start)
+
+### Responsibility split
+
+| Layer | Owns | Package |
+| ----- | ---- | ------- |
+| URL locale, redirects, cookie, `setLocale` | Routing + persist | `@Wadiou/tanstack-i18n` |
+| Dictionary translation primitives, flat keys | Translation | `@solid-primitives/i18n` |
+
+---
+
+<Steps>
+<Step>
+
+### Install @solid-primitives/i18n
+
+Install the primitive library package:
+
+```bash
+pnpm add @solid-primitives/i18n
+```
+
+</Step>
+<Step>
+
+### Add Message Files
+
+Organize your translation strings inside structured namespace-specific files per locale:
+
+```json
+// messages/en/common.json
+{
+  "aboutTitle": "About us",
+  "aboutBody": "We build bilingual marketing sites with TanStack i18n and solid-primitives-i18n.",
+  "switchLanguage": "Language"
+}
+```
+
+```json
+// messages/en/landing.json
+{
+  "hero": "Welcome to our site",
+  "homeLink": "Home",
+  "aboutLink": "About us",
+  "programmaticHome": "Programmatic Home"
+}
+```
+
+And define corresponding translations in `messages/ar/common.json` and `messages/ar/landing.json`.
+
+</Step>
+<Step>
+
+### Implement loadMessages
+
+Dynamic import per locale keeps your production bundle size optimized:
+
+```ts
+// src/i18n/load-messages.ts
+import { flatten } from "@solid-primitives/i18n";
+import type { SupportedLocale } from "@/constants/locales";
+
+export async function loadMessages(locale: SupportedLocale) {
+  const [common, landing] = await Promise.all([
+    import(`../../messages/${locale}/common.json`),
+    import(`../../messages/${locale}/landing.json`),
+  ]);
+
+  return flatten({
+    Common: common.default,
+    Landing: landing.default,
+  }) as Record<string, string>;
+}
+```
+
+</Step>
+<Step>
+
+### Implement useTranslations Hook
+
+Create a unified, type-safe hook matching namespaced keys. 
+
+To satisfy TypeScript's index signature constraint for generic dictionary flattening while fully complying with Biome linter guidelines (which discourage the use of `type` aliases for object shapes), define `Messages` as an `interface` and wrap it in a mapped type inside the type-helper `FlatMessages`:
+
+```ts
+// src/i18n/use-translations.ts
+import type {
+  Flatten,
+  Scoped,
+  Scopes,
+  Translator,
+} from "@solid-primitives/i18n";
+import {
+  resolveTemplate,
+  scopedTranslator,
+  translator,
+} from "@solid-primitives/i18n";
+import { Route } from "@/routes/__root";
+
+import type enCommon from "../../messages/en/common.json";
+import type enLanding from "../../messages/en/landing.json";
+
+export interface Messages {
+  Common: typeof enCommon;
+  Landing: typeof enLanding;
+}
+
+export type FlatMessages = Flatten<{ [K in keyof Messages]: Messages[K] }>;
+
+export function useTranslations<
+  TNamespace extends
+    | Scopes<keyof FlatMessages & string>
+    | undefined = undefined,
+>(
+  namespace?: TNamespace
+): Translator<
+  TNamespace extends string ? Scoped<FlatMessages, TNamespace> : FlatMessages
+> {
+  const context = Route.useRouteContext();
+  const t = translator(
+    () => context().messages as unknown as FlatMessages,
+    resolveTemplate
+  );
+
+  type ReturnType = Translator<
+    TNamespace extends string ? Scoped<FlatMessages, TNamespace> : FlatMessages
+  >;
+
+  if (namespace) {
+    return scopedTranslator(t, namespace) as unknown as ReturnType;
+  }
+  return t as unknown as ReturnType;
+}
+```
+
+Ensure your `tsconfig.json` includes `"messages/**/*"` in its `"include"` section so TypeScript can resolve types for imported `.json` files correctly.
+
+</Step>
+<Step>
+
+### Root beforeLoad — locale + messages
+
+Fetch and bundle active locale messages in the router context in `beforeLoad` on `src/routes/__root.tsx`:
+
+```tsx
+// src/routes/__root.tsx
+import { createRootRouteWithContext } from "@tanstack/solid-router";
+import { loadMessages } from "@/i18n/load-messages";
+import { getLocale } from "@/locale";
+
+export interface RouterContext {
+  locale: string;
+  messages: Record<string, string>;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
+  beforeLoad: async () => {
+    const active = await getLocale();
+    const messages = await loadMessages(active);
+    return { locale: active, messages };
+  },
+});
+```
+
+</Step>
+<Step>
+
+### Create the Locale Provider
+
+Expose a bridge provider that links your active router context to `@Wadiou/tanstack-i18n` bindings:
+
+```ts
+// src/i18n/use-locale.ts
+import { Route } from "@/routes/__root";
+
+export function useLocale() {
+  return Route.useRouteContext()().locale;
+}
+```
+
+```tsx
+// src/i18n/provider.tsx
+import { createLocaleProvider } from "@Wadiou/tanstack-i18n/solid";
+import { locale } from "@/locale";
+import { useLocale } from "./use-locale";
+
+export const { LocaleProvider, useLocaleContext } = createLocaleProvider({
+  runtime: locale,
+  useLocale,
+});
+```
+
+Wrap the provider in your root layout:
+
+```tsx
+// src/routes/__root.tsx
+import { Outlet } from "@tanstack/solid-router";
+import { LocaleProvider } from "@/i18n/provider";
+
+function RootComponent() {
+  return (
+    <LocaleProvider>
+      <Outlet />
+    </LocaleProvider>
+  );
+}
+```
+
+</Step>
+<Step>
+
+### Render Translations
+
+Consume your namespaced translators in pages:
+
+```tsx
+// src/routes/{-$locale}/about.tsx
+import { createFileRoute } from "@tanstack/solid-router";
+import { useTranslations } from "@/i18n/use-translations";
+
+export const Route = createFileRoute("/{-$locale}/about")({
+  component: AboutPage,
+});
+
+function AboutPage() {
+  const t = useTranslations("Common");
+
+  return (
+    <div>
+      <h1>{t("aboutTitle")}</h1>
+      <p>{t("aboutBody")}</p>
+    </div>
+  );
+}
+```
+
+</Step>
+<Step>
+
+### Implement Language Switcher
+
+Expose a dropdown switcher reactively bound to `useLocaleContext` and SolidJS's `createSelector` to avoid hydration selection state mismatches:
+
+```tsx
+// src/components/header.tsx
+import { createSelector, For } from "solid-js";
+import { useLocaleContext } from "@/i18n/provider";
+import { useTranslations } from "@/i18n/use-translations";
+
+export function Header() {
+  const localeContext = useLocaleContext();
+  const tCommon = useTranslations("Common");
+  const isSelected = createSelector(() => localeContext.locale);
+
+  return (
+    <header>
+      <label for="locale-select">{tCommon("switchLanguage")}</label>
+      <select
+        id="locale-select"
+        onChange={(e) => {
+          localeContext.setLocale(e.currentTarget.value);
+        }}
+        value={localeContext.locale}
+      >
+        <For each={["en", "ar"]}>
+          {(code) => (
+            <option selected={isSelected(code)} value={code}>
+              {code === "en" ? "English" : "العربية"}
+            </option>
+          )}
+        </For>
+      </select>
+    </header>
+  );
+}
+```
+
+</Step>
+</Steps>
+
+---
+
+## SPA vs. SSR Layouts
+
+Depending on your router choice, adapt how you handle document text direction (`rtl` vs. `ltr`) and lang attributes:
+
+- **Single Page Application (SPA)**: Since the DOM is always loaded, apply updates directly inside `beforeLoad` on the client:
+  ```ts
+  beforeLoad: async () => {
+    const active = await getLocale();
+    const messages = await loadMessages(active);
+    document.documentElement.setAttribute("lang", active);
+    document.documentElement.setAttribute("dir", active === "ar" ? "rtl" : "ltr");
+    return { locale: active, messages };
+  }
+  ```
+- **Server Side Rendering (SSR)**: In Solid Start, bind the root `<html>` attributes dynamically in your root document layout based on the active router context:
+  ```tsx
+  // src/routes/__root.tsx
+  function RootDocument(props: { children: JSX.Element; locale: string }) {
+    return (
+      <html dir={props.locale === "ar" ? "rtl" : "ltr"} lang={props.locale}>
+        {/* ... */}
+      </html>
+    );
+  }
+  ```
+
+---
+
+## Related
+
+- [Integrations hub](/integrations)
+- [Change locale](/guides/change-locale)
+- [TanStack Start integration](/guides/tanstack-start)

@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "composite": false,
+    "incremental": true
+  },
+  "include": ["src/react/**/*", "src/react-router/index.ts"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,37 @@
+---
+title: Behavior contract
+description: Server entry outcomes, redirect defaults, and getLocale resolution order.
+---
+
+These are the runtime guarantees integrators can rely on. They come from `createServerEntry()` on your locale runtime — see the [TanStack Start guide](/guides/tanstack-start) for wiring.
+
+## Server entry outcomes
+
+Each request through the server entry resolves to a `LocaleRequestResult` action:
+
+| Action | When | HTTP effect |
+| ------ | ---- | ----------- |
+| `pass` | Locale URL and persist already aligned | Handler runs unchanged |
+| `redirect` | Path needs a locale segment (or canonical shape) | `Location` header + persist cookies; **307** if status omitted |
+| `sync-cookie` | URL shape OK but persist missing or wrong | Handler runs + `Set-Cookie` |
+| `detect` | First-visit detect mode; infer differs from active | Handler runs + detect header; no redirect or cookie |
+
+In detect mode, the app renders in `activeLocale` (persist or default) and exposes `detectedLocale` via a response header so you can show a banner without redirecting.
+
+## Redirect status
+
+Redirect results accept an optional `status`. When omitted, the server entry responds with **307** (Temporary Redirect).
+
+## getLocale() resolution
+
+`getLocale()` on your locale runtime resolves the active locale in this order:
+
+1. Valid locale segment in the URL (when prefix mode exposes one)
+2. Persist adapters (cookie, localStorage, server function, …)
+3. `defaultLocale` from your config
+
+<Callout type="info">
+Infer adapters such as `Accept-Language` participate in **first-visit server entry** flow (redirect, sync-cookie, or detect). They are **not** used by `getLocale()`.
+</Callout>
+
+See the [runtime overview](/get-started#runtime-overview) on Get started for how these methods fit together. For subpath exports and peers, see [Exports and peers](/reference/exports).

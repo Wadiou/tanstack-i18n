@@ -1,0 +1,147 @@
+---
+title: Locale runtime
+description: Bind createLocaleRuntime for the marketing site — getLocale, URL helpers, and isomorphic reads.
+---
+
+`defineLocaleConfig` alone does not run at request time — you need a **runtime** object your app imports everywhere. This guide explains how to export `locale` from `src/locale.ts`, create an isomorphic helper for safe SSR and client reads, and use it in loaders to determine the active locale.
+
+## Prerequisites
+
+- [Configuration](/guides/configuration) — `locale-config.ts`
+- [URL prefix modes](/guides/url-prefix) — prefix mode affects URL helpers
+
+<Steps>
+<Step>
+
+### Bind the runtime
+
+Create `src/locale.ts`:
+
+```ts
+import { createLocaleRuntime } from "@Wadiou/tanstack-i18n";
+import { config } from "./locale-config";
+
+export const locale = createLocaleRuntime(config);
+export { config };
+```
+
+Bind-time validation runs here (empty persist+infer, `never` without cookie, etc.) — errors listed in [Configuration — API reference](/guides/configuration#api-reference).
+
+Import `locale` in server entry and providers. For reading the active locale on both client and server, use the isomorphic helper in the next step.
+
+</Step>
+<Step>
+
+### Create the locale helper (SSR only)
+
+To read the active locale correctly during server-side rendering (SSR) and client-side transitions in full-stack frameworks like TanStack Start, wrap the runtime calls in isomorphic helper functions. These resolve request headers and cookies on the server while falling back to the client-side router context in the browser.
+
+We can generate these helpers using `createStartLocaleHelpers` from `@Wadiou/tanstack-i18n/react-start` (for React) or `@Wadiou/tanstack-i18n/solid-start` (for Solid).
+
+Update `src/locale.ts` to export these helper functions:
+
+```ts
+import { createLocaleRuntime } from "@Wadiou/tanstack-i18n";
+import { createStartLocaleHelpers } from "@Wadiou/tanstack-i18n/react-start"; // or /solid-start
+import { config } from "./locale-config";
+
+export const locale = createLocaleRuntime(config);
+
+export const { getLocale, getDetectedLocale } =
+  createStartLocaleHelpers(locale, config);
+```
+
+> [!NOTE]  
+> If you are building a Single Page Application (SPA), you don't need this helper. You can call `locale.getLocale()` directly from the runtime object whenever you need the current locale.
+
+</Step>
+<Step>
+
+### Read the active locale in a loader
+
+Marketing site about page needs `en` or `ar` for layout and message loading.
+
+**For Full-stack (SSR):**
+Import the isomorphic `getLocale` helper:
+
+```ts
+// routes/{-$locale}/about.tsx loader
+import { getLocale } from "../../locale";
+
+export const Route = createFileRoute("/{-$locale}/about")({
+  loader: async () => {
+    const active = await getLocale();
+    return { activeLocale: active };
+  },
+});
+```
+
+**For Single Page Applications (SPA):**
+Call `locale.getLocale()` directly from the runtime:
+
+```ts
+// routes/{-$locale}/about.tsx loader
+import { locale } from "../../locale";
+
+export const Route = createFileRoute("/{-$locale}/about")({
+  loader: () => {
+    const active = locale.getLocale();
+    return { activeLocale: active };
+  },
+});
+```
+
+Resolution order: valid URL segment → persist adapters → `defaultLocale`. Infer is **not** in this chain — [Behavior contract](/reference/behavior).
+
+</Step>
+</Steps>
+
+## How it works
+
+`LocaleRuntime` is the app-facing API. Config is frozen; methods close over it.
+
+| Method | Role |
+| ------ | ---- |
+| `config` | Validated `LocaleConfig` |
+| `getLocale({ request })` | Active locale for rendering (pass request context on server) |
+| `localizeUrl` / `deLocalizeUrl` | Prefix-aware URL building |
+| `createServerEntry(handler)` | Start middleware — [TanStack Start](/guides/tanstack-start) |
+
+User-initiated switching: [Change locale](/guides/change-locale) — `setLocale` from `createLocaleProvider`, not the runtime directly.
+
+## Complete example
+
+**For Full-stack (SSR):**
+
+```ts
+// src/locale.ts
+import { createLocaleRuntime } from "@Wadiou/tanstack-i18n";
+import { createStartLocaleHelpers } from "@Wadiou/tanstack-i18n/react-start"; // or /solid-start
+import { config } from "./locale-config";
+
+export const locale = createLocaleRuntime(config);
+
+export const { getLocale, getDetectedLocale } =
+  createStartLocaleHelpers(locale, config);
+```
+
+**For Single Page Applications (SPA):**
+
+```ts
+// src/locale.ts
+import { createLocaleRuntime } from "@Wadiou/tanstack-i18n";
+import { config } from "./locale-config";
+
+export const locale = createLocaleRuntime(config);
+// Use locale.getLocale() directly in your code
+```
+
+## API reference
+
+### `LocaleRuntime` members
+
+See table in **How it works**. Server entry outcomes (`pass`, `redirect`, …) are documented in [Behavior contract](/reference/behavior) and walked through in [TanStack Start](/guides/tanstack-start) — not duplicated here.
+
+## What's next
+
+Deepen how cookie and infer participate in requests: [Adapters](/guides/adapters).

@@ -1,0 +1,20 @@
+---
+title: react-intl (React)
+description: Pair TanStack i18n locale routing with FormatJS react-intl.
+---
+
+**Supported Frameworks:** `React`
+
+**react-intl** (FormatJS) provides `IntlProvider`, `useIntl`, and `FormattedMessage`. TanStack i18n handles URL locale, server entry, persist adapters, and `setLocale` — react-intl handles catalogs and formatting for the active locale.
+
+Wire `IntlProvider` with `locale` and `messages` from root `beforeLoad` (after `locale.getLocale()`), nest `LocaleProvider` inside it, and pass `useLocale` from react-intl to `createLocaleProvider`. See the [use-intl guide](/integrations/use-intl) for the canonical tree and switch semantics — the shape is the same with different provider and hook names.
+
+<Callout type="info">
+Full react-intl recipe is planned. Follow [use-intl](/integrations/use-intl) for `beforeLoad`, provider order, and `setLocale` until this page expands.
+</Callout>
+
+## Related
+
+- [Integrations hub](/integrations)
+- [use-intl](/integrations/use-intl) — primary integration example
+- [Change locale](/guides/change-locale)

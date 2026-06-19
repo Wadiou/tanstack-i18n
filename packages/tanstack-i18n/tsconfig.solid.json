@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "incremental": true,
+    "types": []
+  },
+  "include": ["src/solid/**/*", "src/solid-router/index.ts"],
+  "exclude": ["node_modules", "dist"]
+}

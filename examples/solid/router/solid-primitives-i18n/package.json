@@ -1,0 +1,31 @@
+{
+  "name": "example-solid-router-solid-primitives-i18n",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc --noEmit",
+    "preview": "vite preview",
+    "check": "ultracite check .",
+    "fix": "ultracite fix .",
+    "clean": "rm -rf dist .turbo src/routeTree.gen.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@Wadiou/tanstack-i18n": "workspace:*",
+    "@tanstack/solid-router": "^1.170.7",
+    "solid-js": "^1.9.0",
+    "@solid-primitives/i18n": "^2.2.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@tanstack/router-plugin": "^1.168.18",
+    "@types/node": "^22.0.0",
+    "vite-plugin-solid": "^2.11.0",
+    "typescript": "^5",
+    "ultracite": "catalog:",
+    "vite": "^8.0.0"
+  }
+}
