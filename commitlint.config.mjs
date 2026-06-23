@@ -5,7 +5,7 @@ export default {
 		"scope-enum": [
 			2,
 			"always",
-			["tanstack-i18n", "docs", "monorepo", "deps", "ci"],
+			["tanstack-i18n", "docs", "monorepo", "deps", "ci", "example"],
 		],
 	},
 };

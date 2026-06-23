@@ -76,6 +76,7 @@ type(scope): imperative subject
 | `monorepo` | root config, Turbo, hooks, `.vscode`, skills |
 | `deps` | dependency-only bumps |
 | `ci` | `.github/workflows` |
+| `example` | integration example applications under `examples/` |
 
 ### Examples
 
