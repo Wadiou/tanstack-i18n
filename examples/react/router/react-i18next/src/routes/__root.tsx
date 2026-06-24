@@ -1,11 +1,6 @@
-import {
-  createRootRouteWithContext,
-  HeadContent,
-  Outlet,
-  Scripts,
-} from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { createInstance, type Resource } from "i18next";
-import { type ReactNode, useMemo } from "react";
+import { useMemo } from "react";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import {
   isValidLocale,
@@ -15,10 +10,9 @@ import {
 import { loadMessages } from "@/i18n/load-messages";
 import { LocaleProvider } from "@/i18n/provider";
 import { getLocale } from "@/locale";
-import appCss from "@/styles.css?url";
 import type { Messages } from "@/types/i18n";
 
-const EXAMPLE_NAME = "react-start-react-i18next";
+const EXAMPLE_NAME = "react-router-react-i18next";
 
 export interface RouterContext {
   locale: SupportedLocale;
@@ -34,40 +28,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     const messages = await loadMessages(active);
     return { locale: active, messages };
   },
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: EXAMPLE_NAME },
-    ],
-    links: [{ rel: "stylesheet", href: appCss }],
-  }),
   component: RootComponent,
 });
-
-function RootDocument({
-  children,
-  locale: activeLocale,
-}: {
-  children: ReactNode;
-  locale: SupportedLocale;
-}) {
-  return (
-    <html
-      dir={LOCALE_TEXT_DIRECTION[activeLocale]}
-      lang={activeLocale}
-      suppressHydrationWarning
-    >
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
 
 function RootComponent() {
   const { locale: activeLocale, messages } = Route.useRouteContext();
@@ -87,13 +49,13 @@ function RootComponent() {
   }, [activeLocale, messages]);
 
   return (
-    <RootDocument locale={activeLocale}>
+    <div dir={LOCALE_TEXT_DIRECTION[activeLocale]} lang={activeLocale}>
       <I18nextProvider i18n={i18n}>
         <LocaleProvider>
           <Outlet />
           <footer className="example-footer">Example: {EXAMPLE_NAME}</footer>
         </LocaleProvider>
       </I18nextProvider>
-    </RootDocument>
+    </div>
   );
 }
