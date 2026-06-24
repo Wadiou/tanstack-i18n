@@ -7,8 +7,8 @@ description: Wire use-intl with TanStack i18n — message catalogs, IntlProvider
 
 <Callout type="info">
   **Runnable References:**
-  - **React Start (SSR)**: [`examples/react/start/use-intl/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/use-intl)
-  - **React Router (SPA)**: [`examples/react/router/use-intl/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/router/use-intl)
+  - **React Start (SSR)**: [react-start-use-intl](/examples#react-start-use-intl)
+  - **React Router (SPA)**: [react-router-use-intl](/examples#react-router-use-intl)
 </Callout>
 
 **use-intl** adds message catalogs and `useTranslations` while TanStack i18n keeps owning locale in the URL. This guide explains how to add JSON message files, load them in root `beforeLoad`, wrap the app with `IntlProvider` **outside** `LocaleProvider`, and translate the marketing header. Language switches reload messages through router invalidation — same `setLocale` flow as before.

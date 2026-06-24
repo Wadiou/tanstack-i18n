@@ -16,6 +16,11 @@ export default defineConfig(async () => ({
     tailwindcss(),
     tanstackStart({
       srcDirectory: "src",
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+      },
+      pages: [{ path: "/" }],
     }),
     react(),
     nitro(),
