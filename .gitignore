@@ -9,6 +9,7 @@
 **/build/
 **/.turbo/
 **/.output/
+**/.wrangler/
 
 # Testing
 **/coverage/
