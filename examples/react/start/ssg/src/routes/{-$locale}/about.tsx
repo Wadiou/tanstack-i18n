@@ -22,8 +22,8 @@ function AboutPage() {
   return (
     <div className="layout">
       <Header />
-      <h1>{t("aboutTitle")}</h1>
-      <p>{t("aboutBody")}</p>
+      <h1>{t("about.title")}</h1>
+      <p>{t("about.body")}</p>
     </div>
   );
 }

@@ -1,5 +1,7 @@
 {
-  "aboutTitle": "About us",
-  "aboutBody": "We build bilingual marketing sites with TanStack i18n and solid-primitives-i18n.",
+  "about": {
+    "title": "About us",
+    "body": "We build bilingual marketing sites with TanStack i18n and solid-primitives-i18n."
+  },
   "switchLanguage": "Language"
 }

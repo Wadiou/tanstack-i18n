@@ -18,10 +18,10 @@ export function Header() {
   return (
     <header>
       <nav>
-        <LocalizedLink to="/">{t("homeLink")}</LocalizedLink>
-        <LocalizedLink to="/about">{t("aboutLink")}</LocalizedLink>
+        <LocalizedLink to="/">{t("nav.homeLink")}</LocalizedLink>
+        <LocalizedLink to="/about">{t("nav.aboutLink")}</LocalizedLink>
         <button onClick={() => navigate({ to: "/" })} type="button">
-          {t("programmaticHome")}
+          {t("nav.programmaticHome")}
         </button>
       </nav>
       <div class="switcher">

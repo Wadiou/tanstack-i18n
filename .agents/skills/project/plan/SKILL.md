@@ -97,8 +97,8 @@ apps/docs-dev/content/tmp/plans/feature/
 
 ## Execution Rule
 
-When following an `implementation.mdx` document:
-- **Execute one phase per request.** Do not attempt to complete multiple phases in a single response unless explicitly asked by the user.
+- **No premature execution:** Never write, modify, or delete any codebase source files during the planning stage (i.e. while creating or editing plans) unless the user explicitly specifies. The planning phase must be strictly limited to research and plan authoring.
+- **Execute one phase per request:** When following an `implementation.mdx` document, do not attempt to complete multiple phases in a single response unless explicitly asked by the user.
 
 ---
 

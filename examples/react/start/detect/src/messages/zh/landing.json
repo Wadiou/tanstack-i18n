@@ -1,6 +1,8 @@
 {
   "hero": "欢迎访问我们的网站",
-  "homeLink": "首页",
-  "aboutLink": "关于我们",
-  "programmaticHome": "编程式首页"
+  "nav": {
+    "homeLink": "首页",
+    "aboutLink": "关于我们",
+    "programmaticHome": "编程式首页"
+  }
 }

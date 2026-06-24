@@ -22,8 +22,8 @@ function AboutPage() {
   return (
     <div className="layout">
       <Header />
-      <h1>{intl.formatMessage({ id: "Common.aboutTitle" })}</h1>
-      <p>{intl.formatMessage({ id: "Common.aboutBody" })}</p>
+      <h1>{intl.formatMessage({ id: "Common.about.title" })}</h1>
+      <p>{intl.formatMessage({ id: "Common.about.body" })}</p>
     </div>
   );
 }

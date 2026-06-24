@@ -1,5 +1,7 @@
 {
-  "aboutTitle": "من نحن",
-  "aboutBody": "نبني مواقع تسويقية ثنائية اللغة باستخدام TanStack i18n و solid-primitives-i18n.",
+  "about": {
+    "title": "من نحن",
+    "body": "نبني مواقع تسويقية ثنائية اللغة باستخدام TanStack i18n و solid-primitives-i18n."
+  },
   "switchLanguage": "اللغة"
 }

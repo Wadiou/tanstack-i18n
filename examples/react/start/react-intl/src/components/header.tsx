@@ -12,13 +12,13 @@ export function Header() {
     <header>
       <nav>
         <LocalizedLink to="/">
-          {intl.formatMessage({ id: "Landing.homeLink" })}
+          {intl.formatMessage({ id: "Landing.nav.homeLink" })}
         </LocalizedLink>
         <LocalizedLink to="/about">
-          {intl.formatMessage({ id: "Landing.aboutLink" })}
+          {intl.formatMessage({ id: "Landing.nav.aboutLink" })}
         </LocalizedLink>
         <button onClick={() => navigate({ to: "/" })} type="button">
-          {intl.formatMessage({ id: "Landing.programmaticHome" })}
+          {intl.formatMessage({ id: "Landing.nav.programmaticHome" })}
         </button>
       </nav>
       <div className="switcher">

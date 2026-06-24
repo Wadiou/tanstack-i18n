@@ -7,6 +7,10 @@ export interface Messages {
   Landing: typeof enLanding;
 }
 
+export type LocaleMessageModules = {
+  [K in keyof Messages as Lowercase<K>]: Messages[K];
+};
+
 declare module "use-intl" {
   interface AppConfig {
     Locale: SupportedLocale;

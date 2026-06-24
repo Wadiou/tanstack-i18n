@@ -1,6 +1,8 @@
 {
   "hero": "مرحبًا بكم في موقعنا",
-  "homeLink": "الرئيسية",
-  "aboutLink": "من نحن",
-  "programmaticHome": "الرئيسية برمجيًا"
+  "nav": {
+    "homeLink": "الرئيسية",
+    "aboutLink": "من نحن",
+    "programmaticHome": "الرئيسية برمجيًا"
+  }
 }
