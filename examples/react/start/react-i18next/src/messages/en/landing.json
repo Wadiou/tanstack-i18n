@@ -1,0 +1,8 @@
+{
+  "hero": "Welcome to our site",
+  "nav": {
+    "homeLink": "Home",
+    "aboutLink": "About us",
+    "programmaticHome": "Programmatic Home"
+  }
+}
