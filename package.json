@@ -42,7 +42,7 @@
 		"*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --staged"
 	},
 	"engines": {
-		"node": ">=20"
+		"node": ">=22"
 	},
 	"packageManager": "pnpm@11.5.0"
 }

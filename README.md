@@ -4,7 +4,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT" />
-  <img src="https://img.shields.io/badge/node-%3E%3D20-green.svg" alt="node >=20" />
+  <img src="https://img.shields.io/badge/node-%3E%3D24-green.svg" alt="node >=24" />
 </p>
 
 - Locale segments in URLs — prefix always, hide for default, or custom paths per language
@@ -42,27 +42,6 @@ const config = defineLocaleConfig({
 
 export const locale = createLocaleRuntime(config);
 ```
-
-## Repository layout
-
-| Path | Role |
-| ---- | ---- |
-| `packages/tanstack-i18n` | npm package |
-| `apps/docs` | Public docs site |
-| `apps/docs-dev` | Local WIP docs (not deployed) |
-| `examples/*` | Runnable integration examples |
-
-## Development
-
-```bash
-corepack enable
-pnpm install
-pnpm validate
-pnpm docs:dev
-pnpm --dir examples/<name> dev
-```
-
-Run `pnpm validate` before opening a PR (lint, typecheck, and tests across workspaces).
 
 ## Links
 

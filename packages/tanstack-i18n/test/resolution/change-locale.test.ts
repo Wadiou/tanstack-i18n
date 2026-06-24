@@ -23,11 +23,11 @@ function mockBrowserLocation(pathname: string, search = "", hash = "") {
 describe("changeLocale via createLocaleRuntime", () => {
   const originalWindow = globalThis.window;
   let replaceState: ReturnType<typeof vi.fn>;
-  let invalidate: ReturnType<typeof vi.fn>;
+  let invalidate: ReturnType<typeof vi.fn<() => Promise<void>>>;
 
   beforeEach(() => {
     replaceState = vi.fn();
-    invalidate = vi.fn(noopWrite);
+    invalidate = vi.fn<() => Promise<void>>(noopWrite);
     Object.defineProperty(globalThis, "history", {
       configurable: true,
       value: { replaceState },

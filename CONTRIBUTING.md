@@ -4,12 +4,23 @@ Issues and pull requests are welcome. For questions, open a GitHub issue until D
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) **20+**
+- [Node.js](https://nodejs.org/) **24+**
 - [pnpm](https://pnpm.io/) **11.5.0** — run `corepack enable` once
+
+## Repository layout
+
+| Path | Role |
+| ---- | ---- |
+| `packages/tanstack-i18n` | npm package |
+| `apps/docs` | Public docs site |
+| `apps/docs-dev` | Local WIP docs (not deployed) |
+| `examples/*` | Runnable integration examples |
 
 ## Setup
 
 ```bash
+nvm install
+nvm use
 corepack enable
 pnpm install
 ```
@@ -72,9 +83,10 @@ Examples:
 - Exported types: JSDoc in `types.ts`; `{@link}` references only types defined in that file
 - Package lint: `pnpm --dir packages/tanstack-i18n run check` (Ultracite/Biome)
 
-## Docs
+## Docs & Examples
 
-- Public docs app: `apps/docs` — `pnpm docs:dev` from the repo root
+- **Docs site**: run `pnpm docs:dev` from the repo root to start `apps/docs`.
+- **Examples**: run `pnpm --dir examples/<name> dev` to run a specific integration example locally.
 - `apps/docs-dev` and `content/tmp/` are local WIP (gitignored) — not the public specification
 
 ## Out of scope here
