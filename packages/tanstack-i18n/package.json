@@ -2,7 +2,19 @@
   "name": "@Wadiou/tanstack-i18n",
   "version": "0.0.1",
   "description": "Locale routing, persistence, and TanStack Start/Router adapters for i18n",
-  "private": true,
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wadiou/tanstack-i18n.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wadiou/tanstack-i18n/issues"
+  },
+  "homepage": "https://tanstack-i18n.wadiou.dev",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -26,42 +38,42 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./src/index.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./adapters": {
-      "types": "./src/adapters/index.ts",
+      "types": "./dist/adapters/index.d.ts",
       "import": "./dist/adapters/index.js",
       "default": "./dist/adapters/index.js"
     },
     "./react-router": {
-      "types": "./src/react-router/index.ts",
+      "types": "./dist/react-router/index.d.ts",
       "import": "./dist/react-router/index.js",
       "default": "./dist/react-router/index.js"
     },
     "./react": {
-      "types": "./src/react/index.ts",
+      "types": "./dist/react/index.d.ts",
       "import": "./dist/react/index.js",
       "default": "./dist/react/index.js"
     },
     "./solid": {
-      "types": "./src/solid/index.ts",
+      "types": "./dist/solid/index.d.ts",
       "import": "./dist/solid/index.js",
       "default": "./dist/solid/index.js"
     },
     "./solid-router": {
-      "types": "./src/solid-router/index.ts",
+      "types": "./dist/solid-router/index.d.ts",
       "import": "./dist/solid-router/index.js",
       "default": "./dist/solid-router/index.js"
     },
     "./react-start": {
-      "types": "./src/react-start/index.ts",
+      "types": "./dist/react-start/index.d.ts",
       "import": "./dist/react-start/index.js",
       "default": "./dist/react-start/index.js"
     },
     "./solid-start": {
-      "types": "./src/solid-start/index.ts",
+      "types": "./dist/solid-start/index.d.ts",
       "import": "./dist/solid-start/index.js",
       "default": "./dist/solid-start/index.js"
     }
