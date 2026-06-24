@@ -5,14 +5,376 @@ description: Pair TanStack i18n locale routing with react-i18next and i18next.
 
 **Supported Frameworks:** `React`
 
-**react-i18next** is a popular React localization framework. TanStack i18n handles URL locale, server entry, persist adapters, and `setLocale` — react-i18next handles translation catalogs and rendering.
-
 <Callout type="info">
-Full react-i18next integration recipe is planned. Follow the [use-intl guide](/integrations/use-intl) for general concepts on resolving and sync-ing routing with translation providers.
+  **Runnable References:**
+  - **React Start (SSR)**: [`examples/react/start/react-i18next/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/react-i18next)
+  - **React Router (SPA)**: [`examples/react/router/react-i18next/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/router/react-i18next)
 </Callout>
 
-## Related
+**react-i18next** (built on **i18next**) is a popular localization framework for React. TanStack i18n handles URL locale, server entry redirects, persist adapters, and `setLocale` — react-i18next handles translation catalogs, rendering hooks, and type-safe nested translation namespaces.
 
-- [Integrations hub](/integrations)
-- [use-intl](/integrations/use-intl) — primary integration example
-- [Change locale](/guides/change-locale)
+Because i18next natively supports nested translation keys, no key flattening is necessary when loading translation files.
+
+## Prerequisites
+
+- Guides through [Change locale](/guides/change-locale)
+- [Locale runtime](/guides/locale-runtime) exports `locale`
+- [TanStack Start](/guides/tanstack-start) server entry wraps `handler.fetch` (if using SSR)
+
+### Responsibility split
+
+| Layer | Owns | Package |
+| ----- | ---- | ------- |
+| URL locale, redirects, cookie, `setLocale` | Routing + persist | `@Wadiou/tanstack-i18n` |
+| Message catalogs, `t()`, nested namespaces | Translation | `react-i18next` + `i18next` |
+
+**Critical rule:** Switch language with **`setLocale` from `useLocaleContext`** — not a separate locale setter inside react-i18next. After `setLocale`: persist + URL update + `router.invalidate()` → root `beforeLoad` re-runs → `loadMessages` → `I18nextProvider` gets new `locale` and `messages`.
+
+<Steps>
+<Step>
+
+### Install i18next and react-i18next
+
+Install both the core library and React bindings:
+
+```bash
+pnpm add i18next react-i18next
+```
+
+</Step>
+<Step>
+
+### Add message files
+
+Organize your copy per locale and namespace. For a marketing site, start with `landing.json` and `common.json` under your `messages/` folder (e.g., `src/messages/en/landing.json`):
+
+```json
+{
+  "nav": {
+    "homeLink": "Home",
+    "aboutLink": "About"
+  },
+  "hero": "Welcome to our site"
+}
+```
+
+And `common.json` (e.g., `src/messages/en/common.json`):
+
+```json
+{
+  "switchLanguage": "Language",
+  "about": {
+    "title": "About us",
+    "body": "We build bilingual marketing sites with TanStack i18n and react-i18next."
+  }
+}
+```
+
+Create a helper utility to merge all modules into one:
+
+```ts
+// src/i18n/merge-messages.ts
+import type { LocaleMessageModules, Messages } from "@/types/i18n";
+
+export function mergeMessages(m: LocaleMessageModules): Messages {
+  return {
+    common: m.common,
+    landing: m.landing,
+  };
+}
+```
+
+Per-locale barrels import the JSON catalogs and call `mergeMessages`:
+
+```ts
+// src/i18n/locales/en.ts
+import common from "@/messages/en/common.json";
+import landing from "@/messages/en/landing.json";
+import { mergeMessages } from "../merge-messages";
+
+export default mergeMessages({ common, landing });
+```
+
+</Step>
+<Step>
+
+### Configure type definitions
+
+To enable full TypeScript autocomplete and type safety for your translation keys, augment the `"i18next"` module with `CustomTypeOptions`:
+
+```ts
+// src/types/i18n.d.ts
+import "i18next";
+import type enCommon from "@/messages/en/common.json";
+import type enLanding from "@/messages/en/landing.json";
+
+export type SupportedLocale = "en" | "ar";
+
+export interface LocaleMessageModules {
+  common: typeof enCommon;
+  landing: typeof enLanding;
+}
+
+export interface Messages {
+  common: typeof enCommon;
+  landing: typeof enLanding;
+}
+
+declare module "i18next" {
+  interface CustomTypeOptions {
+    defaultNS: "common";
+    resources: {
+      common: typeof enCommon;
+      landing: typeof enLanding;
+    };
+  }
+}
+```
+
+</Step>
+<Step>
+
+### Implement loadMessages
+
+Dynamic import per locale keeps bundle sizes small:
+
+```ts
+// src/i18n/load-messages.ts
+import type { SupportedLocale, Messages } from "@/types/i18n";
+
+const loaders = {
+  en: () => import("./locales/en"),
+  ar: () => import("./locales/ar"),
+} as const satisfies Record<
+  SupportedLocale,
+  () => Promise<{ default: Messages }>
+>;
+
+export async function loadMessages(locale: SupportedLocale): Promise<Messages> {
+  const { default: messages } = await loaders[locale]();
+  return messages;
+}
+```
+
+</Step>
+<Step>
+
+### Root beforeLoad — locale + messages
+
+Resolve the locale with your runtime, then load the translations. In `__root.tsx`:
+
+```ts
+import { createRootRouteWithContext } from "@tanstack/react-router";
+import { getLocale } from "@/locale";
+import { loadMessages } from "@/i18n/load-messages";
+import type { SupportedLocale, Messages } from "@/types/i18n";
+
+interface RouterContext {
+  locale: SupportedLocale;
+  messages: Messages;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
+  beforeLoad: async () => {
+    const active = await getLocale();
+    const messages = await loadMessages(active);
+    return { locale: active, messages };
+  },
+  component: RootComponent,
+});
+```
+
+</Step>
+<Step>
+
+### I18nextProvider (outer) — pass loader data
+
+In SSR environments, to prevent state leak across concurrent server requests, initialize a request-scoped `i18next` instance inside your component using React's `useMemo`. 
+
+Always set `interpolation.escapeValue` to `false` because React automatically escapes values from XSS by default:
+
+```tsx
+import { useMemo } from "react";
+import { createInstance, type Resource } from "i18next";
+import { I18nextProvider, initReactI18next } from "react-i18next";
+import { Outlet } from "@tanstack/react-router";
+import { LocaleProvider } from "@/i18n/provider";
+
+function RootComponent() {
+  const { locale: activeLocale, messages } = Route.useRouteContext();
+
+  const i18n = useMemo(() => {
+    const instance = createInstance();
+    instance.use(initReactI18next).init({
+      lng: activeLocale,
+      resources: {
+        [activeLocale]: messages,
+      } as unknown as Resource,
+      interpolation: {
+        escapeValue: false, // react already protects from xss
+      },
+    });
+    return instance;
+  }, [activeLocale, messages]);
+
+  return (
+    <div dir={activeLocale === "ar" ? "rtl" : "ltr"} lang={activeLocale}>
+      <I18nextProvider i18n={i18n}>
+        <LocaleProvider>
+          <Outlet />
+        </LocaleProvider>
+      </I18nextProvider>
+    </div>
+  );
+}
+```
+
+</Step>
+<Step>
+
+### createLocaleProvider (inner) — bridge hook
+
+Pass a custom hook bridging the active locale from i18next:
+
+```ts
+// src/i18n/provider.tsx
+import { createLocaleProvider } from "@Wadiou/tanstack-i18n/react";
+import { useTranslation } from "react-i18next";
+import { locale } from "@/locale";
+
+export function useLocale() {
+  return useTranslation().i18n.language as "en" | "ar";
+}
+
+export const { LocaleProvider, useLocaleContext } = createLocaleProvider({
+  runtime: locale,
+  useLocale,
+});
+```
+
+</Step>
+<Step>
+
+### Translate a page
+
+Inject the `useTranslation` hook and translate text:
+
+```tsx
+import { useTranslation } from "react-i18next";
+import { LocalizedLink } from "@/i18n/routes";
+
+function MarketingHeader() {
+  // Load namespaces explicitly for type safety
+  const { t } = useTranslation(["landing", "common"]);
+
+  return (
+    <header>
+      <h1>{t("landing:hero")}</h1>
+      <LocalizedLink to="/about">
+        {t("landing:nav.aboutLink")}
+      </LocalizedLink>
+    </header>
+  );
+}
+```
+
+</Step>
+<Step>
+
+### Language switcher
+
+Keep the switcher from [Change locale](/guides/change-locale):
+
+```tsx
+function LanguageSwitcher() {
+  const { locales, locale, setLocale } = useLocaleContext();
+
+  return (
+    <select
+      aria-label="Language"
+      value={locale}
+      onChange={(e) => void setLocale(e.target.value)}
+    >
+      {locales.map((code) => (
+        <option key={code} value={code}>
+          {code === "en" ? "English" : "العربية"}
+        </option>
+      ))}
+    </select>
+  );
+}
+```
+
+</Step>
+<Step>
+
+### SSR vs SPA
+
+**For Full-stack (SSR):** On the server, `beforeLoad` runs with the incoming request — `getLocale()` resolves from URL and cookies the same way as on the client. Wrap the document with `html` and `body` tags in the root route component, and pass the resolved locale and direction to them.
+
+**For Single Page Applications (SPA):** You do not need an isomorphic helper. You can call `locale.getLocale()` directly from the runtime object inside `beforeLoad` or any other client-side code, relying on the `localStorage` adapter to persist settings. Wrap with a root `div` container instead of `html` and `body` tags.
+
+</Step>
+</Steps>
+
+## Custom vs package
+
+| Concern | Stays in app code | Provided by TanStack i18n |
+| ------- | ----------------- | ------------------------- |
+| JSON message files | Yes | — |
+| `loadMessages` / merge | Yes | — |
+| Server entry redirects | — | `createServerEntry()` |
+| `getLocale()` | — | `locale.getLocale()` |
+| `setLocale` switch | — | `createLocaleProvider` |
+| `I18nextProvider` / `useTranslation` | react-i18next | — |
+
+## Complete example (file list)
+
+```
+src/
+  locale.ts                    # createLocaleRuntime export & helpers
+  messages/                    # JSON message catalogs
+    en/
+      landing.json
+      common.json
+    ar/
+      landing.json
+      common.json
+  i18n/
+    merge-messages.ts
+    load-messages.ts
+    locales/en.ts
+    locales/ar.ts
+    provider.tsx                 # createLocaleProvider + useLocale from react-i18next
+    routes.ts                    # LocalizedLink from guides
+  routes/__root.tsx              # beforeLoad + i18next useMemo + I18nextProvider
+```
+
+## API reference
+
+### `I18nextProvider` (react-i18next)
+
+| Prop | Role |
+| ---- | ---- |
+| `i18n` | Configured `i18next` instance |
+
+### Hooks (react-i18next)
+
+| Hook | Role |
+| ---- | ---- |
+| `useTranslation(ns?)` | Translation function (`t()`) scoped to the provided namespaces |
+
+### `createLocaleProvider` (@Wadiou/tanstack-i18n/react)
+
+| Dep | Role |
+| --- | ---- |
+| `runtime` | Bound `LocaleRuntime` |
+| `useLocale` | Read-only locale reader — typically using `useTranslation().i18n.language` |
+
+Returns `{ LocaleProvider, useLocaleContext }`. Use **`setLocale`** from `useLocaleContext` in UI.
+
+## What's next
+
+- [Paraglide](/integrations/paraglide) and [use-intl](/integrations/use-intl) — same split of concerns; full recipes planned
+- [Behavior contract](/reference/behavior) — locale resolution guarantees
+- Migration from libs that owned URL routing — coming in the Migration section
