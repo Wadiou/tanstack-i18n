@@ -1,0 +1,72 @@
+---
+title: next-intl
+description: Transition routing and path resolution from Next.js App Router and next-intl to TanStack i18n.
+---
+
+This guide explains how to migrate routing from Next.js and `next-intl` to TanStack Router (SPA) or TanStack Start (SSR) paired with `@Wadiou/tanstack-i18n`.
+
+## General differences
+
+| Concern | next-intl | TanStack i18n |
+| ------- | --------- | ------------- |
+| **URL Prefixing** | Handles prefix negotiation inside Next.js `middleware.ts` | Configured inside `defineLocaleConfig` using cookie/header adapters |
+| **Route Parameters** | Folder-based dynamic route segment (e.g. `[locale]`) | Layout route parameter segment named `` `{-$locale}` `` |
+| **Active Locale State** | Stored inside Next.js layout context | Managed by the `LocaleRuntime` object |
+
+---
+
+## Route tree mapping
+
+In Next.js, localized pages are nested under the dynamic directory named `[locale]`.
+
+In TanStack Router, rewrite the route paths to be nested under a parent layout route named `{-$locale}.tsx` (the `-` prefix informs the router that the parameter should be managed by the localization adapters):
+
+- `/app/[locale]/page.tsx` → `src/routes/{-$locale}/index.tsx`
+- `/app/[locale]/about/page.tsx` → `src/routes/{-$locale}/about.tsx`
+- `/app/[locale]/posts/[id]/page.tsx` → `src/routes/{-$locale}/posts/$id.tsx`
+
+The layout route `{-$locale}.tsx` simply renders the outlet:
+
+```tsx
+// src/routes/{-$locale}.tsx
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/{-$locale}")({
+  component: () => <Outlet />,
+});
+```
+
+---
+
+## Navigation & Links
+
+Replace next-intl's custom navigation helpers with TanStack i18n's route components:
+
+- **Before (next-intl):**
+  ```tsx
+  import { Link } from "@/navigation";
+  
+  <Link href="/about">About</Link>
+  ```
+
+- **After (TanStack i18n):**
+  ```tsx
+  import { LocalizedLink } from "@/i18n/routes";
+  
+  <LocalizedLink to="/about">About</LocalizedLink>
+  ```
+
+For programmatic redirects, replace next-intl's `useRouter().push('/path')` with `useLocalizedNavigate`:
+
+```tsx
+import { useLocalizedNavigate } from "@/i18n/routes";
+
+const navigate = useLocalizedNavigate();
+navigate({ to: "/about" });
+```
+
+---
+
+## Integration & Catalog Setup
+
+Once routing structure is mapped, proceed to setup the core translation catalog, messages loading, type definitions, and providers by following the **[use-intl Integration Guide](/integrations/use-intl)**.

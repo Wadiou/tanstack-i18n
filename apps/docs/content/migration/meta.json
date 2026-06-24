@@ -1,0 +1,5 @@
+{
+  "title": "Migration",
+  "icon": "ArrowRightLeft",
+  "pages": ["next-intl", "remix-i18next"]
+}

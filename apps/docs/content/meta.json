@@ -1,3 +1,3 @@
 {
-	"pages": ["get-started", "guides", "integrations", "reference"]
+  "pages": ["get-started", "guides", "integrations", "migration", "reference"]
 }

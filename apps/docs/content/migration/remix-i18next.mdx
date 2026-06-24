@@ -1,0 +1,60 @@
+---
+title: remix-i18next
+description: Transition routing and path resolution from Remix and remix-i18next to TanStack i18n.
+---
+
+This guide explains how to migrate routing from Remix and `remix-i18next` to TanStack Router (SPA) or TanStack Start (SSR) paired with `@Wadiou/tanstack-i18n`.
+
+## General differences
+
+| Concern | remix-i18next | TanStack i18n |
+| ------- | ------------- | ------------- |
+| **Locale Resolution** | Manual lookup in each page loader via `i18next.getLocale(request)` | Centralized resolver in root route's `beforeLoad` and server adapters |
+| **Route Parameters** | Flat layout prefix parameter `($locale)` | Layout route parameter segment named `` `{-$locale}` `` |
+| **Context Bridging** | React contexts bound to standard i18next providers | Tied directly using `createLocaleProvider` hooks |
+
+---
+
+## Route tree mapping
+
+Remix uses flat routing files with dynamic optional route layouts like `($locale)`.
+
+In TanStack Router, rewrite these paths into nested directory route files under the layout route `{-$locale}.tsx`:
+
+- `routes/($locale).tsx` → `src/routes/{-$locale}.tsx` (Layout route)
+- `routes/($locale)._index.tsx` → `src/routes/{-$locale}/index.tsx` (Home page)
+- `routes/($locale).about.tsx` → `src/routes/{-$locale}/about.tsx` (About page)
+- `routes/($locale).posts.$id.tsx` → `src/routes/{-$locale}/posts/$id.tsx` (Post page)
+
+The layout route `{-$locale}.tsx` simply renders the outlet:
+
+```tsx
+// src/routes/{-$locale}.tsx
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/{-$locale}")({
+  component: () => <Outlet />,
+});
+```
+
+---
+
+## Loader simplification
+
+With `remix-i18next`, individual page loaders must manually parse headers to extract the active locale:
+
+```ts
+// Before (Remix loader boilerplate on every route)
+export async function loader({ request }: LoaderFunctionArgs) {
+  const locale = await i18next.getLocale(request);
+  return json({ locale });
+}
+```
+
+In TanStack Router, the root route resolves and stores this state inside the router context using `beforeLoad`. Individual sub-routes consume the resolved active locale and translation resources directly via React hooks, eliminating the need to write loader boilerplate on every route.
+
+---
+
+## Integration & Catalog Setup
+
+Once routing structure is mapped, proceed to setup the core translation catalog, messages loading, type definitions, and providers by following the **[react-i18next Integration Guide](/integrations/react-i18next)**.

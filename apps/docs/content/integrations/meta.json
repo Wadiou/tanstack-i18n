@@ -1,5 +1,11 @@
 {
-	"title": "Integrations",
-	"icon": "Plug",
-	"pages": ["use-intl","solid-primitives-i18n", "paraglide", "react-intl", "react-i18next"]
+  "title": "Integrations",
+  "icon": "Plug",
+  "pages": [
+    "use-intl",
+    "react-i18next",
+    "react-intl",
+    "solid-primitives-i18n",
+    "paraglide"
+  ]
 }

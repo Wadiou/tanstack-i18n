@@ -1,13 +1,13 @@
 {
-	"title": "Guides",
-	"icon": "BookOpen",
-	"pages": [
-		"configuration",
-		"url-prefix",
-		"locale-runtime",
-		"adapters",
-		"tanstack-start",
-		"tanstack-router",
-		"change-locale"
-	]
+  "title": "Guides",
+  "icon": "BookOpen",
+  "pages": [
+    "configuration",
+    "url-prefix",
+    "locale-runtime",
+    "adapters",
+    "tanstack-start",
+    "tanstack-router",
+    "change-locale"
+  ]
 }

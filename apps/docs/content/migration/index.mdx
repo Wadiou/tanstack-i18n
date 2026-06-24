@@ -1,0 +1,44 @@
+---
+title: Migration
+description: Migrate routing and locale state ownership from next-intl or remix-i18next to TanStack i18n.
+---
+
+When scaling or moving to framework-agnostic routing systems like **TanStack Router** or **TanStack Start**, you can migrate routing and locale state ownership from routing-heavy frameworks (like `next-intl` or `remix-i18next`) to `@Wadiou/tanstack-i18n`.
+
+<Callout type="info">
+  **Note on next-intl vs. use-intl:**  
+  `next-intl` includes Next.js-specific routing middleware and hooks. Its core formatting engine is **`use-intl`**. When migrating to TanStack i18n, you drop next-intl's routing layers and use **`use-intl`** directly for catalog formatting.
+</Callout>
+
+Migrating lets you separate path resolution from formatting, leaving your translation catalogs unchanged.
+
+---
+
+## What changes (URL & middleware)
+
+The principal change is moving URL and cookie state ownership to TanStack i18n:
+- **URL matching:** TanStack i18n handles path detection using `defineLocaleConfig` and persistence adapters (cookie/local storage) instead of the framework's middleware.
+- **Dynamic route files:** Dynamic directory segments are mapped to TanStack Router's dynamic segment parameter `` `{-$locale}` ``.
+- **Language switcher:** Switching languages is done by calling `setLocale()` from TanStack's `useLocaleContext()`.
+
+---
+
+## Responsibility split
+
+| Layer | TanStack i18n | Translation Library |
+| ----- | ------------- | -------------------- |
+| URL Path matching & redirects | **Yes** (resolves active locale) | No |
+| Cookie & Persist state | **Yes** | No |
+| Route entry middleware | **Yes** (handles server process pipeline) | No |
+| Formatting & Catalog lookup | No | **Yes** (processes `t()` / `formatMessage`) |
+
+---
+
+## Migration Guides
+
+Follow the framework-specific guide to migrate your application:
+
+<Cards>
+  <Card title="next-intl" href="/migration/next-intl" icon="ArrowRightLeft" description="Migrate routing from Next.js dynamic folders and next-intl middleware." />
+  <Card title="remix-i18next" href="/migration/remix-i18next" icon="ArrowRightLeft" description="Migrate routing from Remix flat dynamic route files." />
+</Cards>
