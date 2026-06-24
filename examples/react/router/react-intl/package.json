@@ -1,0 +1,32 @@
+{
+  "name": "example-react-router-react-intl",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc --noEmit",
+    "preview": "vite preview",
+    "check": "ultracite check .",
+    "fix": "ultracite fix .",
+    "clean": "rm -rf dist .turbo src/routeTree.gen.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@Wadiou/tanstack-i18n": "workspace:*",
+    "@tanstack/react-router": "^1.168.18",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-intl": "^7.1.5"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@tanstack/router-plugin": "^1.168.18",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^5",
+    "ultracite": "catalog:",
+    "vite": "^8.0.0"
+  }
+}
