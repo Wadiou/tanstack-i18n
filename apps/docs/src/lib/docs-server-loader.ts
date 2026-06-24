@@ -13,5 +13,10 @@ export const docsServerLoader = createServerFn({ method: "GET" })
     return {
       path: page.path,
       pageTree: await source.serializePageTree(source.getPageTree()),
+      frontmatter: {
+        title: page.data.title,
+        description: page.data.description,
+      },
+      slugs,
     };
   });

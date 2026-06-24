@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LLMS_HEADER } from "@/constants/templates/llms-header";
 import { source } from "@/lib/source";
 
 export const Route = createFileRoute("/llms.txt")({
@@ -6,16 +7,6 @@ export const Route = createFileRoute("/llms.txt")({
     handlers: {
       GET: () => {
         const pages = source.getPages();
-
-        const header = `# TanStack i18n Documentation
-
-Locale routing, persistence, and TanStack Start/Router adapters for i18n.
-
-## Markdown Alternative Formats
-Every page in these docs is available in raw, unformatted markdown. Append \`.md\` to any documentation URL path (e.g. \`/get-started.md\`) to retrieve the raw text source.
-
-## Documentation Index
-`;
 
         const pageList = pages
           .map((page) => {
@@ -26,7 +17,7 @@ Every page in these docs is available in raw, unformatted markdown. Append \`.md
           })
           .join("\n");
 
-        return new Response(`${header}${pageList}\n`, {
+        return new Response(`${LLMS_HEADER}${pageList}\n`, {
           headers: {
             "Content-Type": "text/plain; charset=utf-8",
           },

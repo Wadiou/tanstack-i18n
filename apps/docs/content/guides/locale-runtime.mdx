@@ -1,6 +1,6 @@
 ---
 title: Locale runtime
-description: Bind createLocaleRuntime for the marketing site — getLocale, URL helpers, and isomorphic reads.
+description: Create and bind your locale runtime using createLocaleRuntime. Access isomorphic locale status, url helpers, and state detection utilities.
 ---
 
 `defineLocaleConfig` alone does not run at request time — you need a **runtime** object your app imports everywhere. This guide explains how to export `locale` from `src/locale.ts`, create an isomorphic helper for safe SSR and client reads, and use it in loaders to determine the active locale.

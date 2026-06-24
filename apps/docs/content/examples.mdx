@@ -1,6 +1,6 @@
 ---
 title: Examples
-description: Explore the official example applications demonstrating TanStack i18n integrated with React, Solid, TanStack Start, and TanStack Router.
+description: Explore official integration examples for React, Solid, TanStack Start, and TanStack Router. Run and test complete configurations on StackBlitz.
 icon: FolderOpen
 ---
 
@@ -12,19 +12,13 @@ Explore our curated list of example applications. You can browse the source code
 
 React integrations support both server-side rendered (SSR) environments with TanStack Start and client-side single-page applications (SPA) with TanStack Router.
 
-### TanStack Start
+### TanStack Start (SSR)
 
 <Cards>
-  <Card title="react-start-detect" id="react-start-detect">
-    Automatic locale detection using browser headers, cookies, or query parameters.
+  <Card title="react-start-use-intl" id="react-start-use-intl">
+    A clean server-side rendered application utilizing the lightweight `use-intl` package.
 
-    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/detect) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/start/detect?preset=node)
-  </Card>
-
-  <Card title="react-start-paraglide" id="react-start-paraglide">
-    High-performance, compiler-optimized static type translations using Paraglide JS with TanStack Start.
-
-    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/paraglide) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/start/paraglide?preset=node)
+    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/use-intl) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/start/use-intl?preset=node)
   </Card>
 
   <Card title="react-start-react-i18next" id="react-start-react-i18next">
@@ -39,28 +33,34 @@ React integrations support both server-side rendered (SSR) environments with Tan
     [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/react-intl) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/start/react-intl?preset=node)
   </Card>
 
+  <Card title="react-start-paraglide" id="react-start-paraglide">
+    High-performance, compiler-optimized static type translations using Paraglide JS with TanStack Start.
+
+    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/paraglide) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/start/paraglide?preset=node)
+  </Card>
+
+  <Card title="react-start-detect" id="react-start-detect">
+    Automatic locale detection using browser headers, cookies, or query parameters.
+
+    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/detect) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/start/detect?preset=node)
+  </Card>
+
   <Card title="react-start-ssg" id="react-start-ssg">
     Static Site Generation (SSG) prerendering with localized paths. Generates pure HTML files for each configured locale.
 
     [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/ssg) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/start/ssg?preset=node)
   </Card>
-
-  <Card title="react-start-use-intl" id="react-start-use-intl">
-    A clean server-side rendered application utilizing the lightweight `use-intl` package.
-
-    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/use-intl) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/start/use-intl?preset=node)
-  </Card>
 </Cards>
 
 ---
 
-### TanStack Router
+### TanStack Router (SPA)
 
 <Cards>
-  <Card title="react-router-paraglide" id="react-router-paraglide">
-    Client-side single-page application (SPA) using Paraglide JS with TanStack Router.
+  <Card title="react-router-use-intl" id="react-router-use-intl">
+    SPA implementation showcasing the integration between TanStack Router and the `use-intl` translation package.
 
-    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/router/paraglide) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/router/paraglide?preset=node)
+    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/router/use-intl) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/router/use-intl?preset=node)
   </Card>
 
   <Card title="react-router-react-i18next" id="react-router-react-i18next">
@@ -75,10 +75,10 @@ React integrations support both server-side rendered (SSR) environments with Tan
     [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/router/react-intl) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/router/react-intl?preset=node)
   </Card>
 
-  <Card title="react-router-use-intl" id="react-router-use-intl">
-    SPA implementation showcasing the integration between TanStack Router and the `use-intl` translation package.
+  <Card title="react-router-paraglide" id="react-router-paraglide">
+    Client-side single-page application (SPA) using Paraglide JS with TanStack Router.
 
-    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/router/use-intl) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/router/use-intl?preset=node)
+    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/router/paraglide) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/react/router/paraglide?preset=node)
   </Card>
 </Cards>
 
@@ -86,38 +86,38 @@ React integrations support both server-side rendered (SSR) environments with Tan
 
 ## Solid Examples
 
-Solid-based integrations targeting Solid Start and Solid Router environments.
+Solid-based integrations targeting TanStack Start and TanStack Router environments.
 
-### Solid Start
+### TanStack Start (SSR)
 
 <Cards>
-  <Card title="solid-start-paraglide" id="solid-start-paraglide">
-    Server-side rendered (SSR) Solid Start application using compiler-driven Paraglide JS translations.
-
-    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/solid/start/paraglide) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/solid/start/paraglide?preset=node)
-  </Card>
-
   <Card title="solid-start-solid-primitives-i18n" id="solid-start-solid-primitives-i18n">
-    Solid Start application utilizing `@solid-primitives/i18n` dictionary translation helpers.
+    TanStack Start application utilizing `@solid-primitives/i18n` dictionary translation helpers.
 
     [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/solid/start/solid-primitives-i18n) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/solid/start/solid-primitives-i18n?preset=node)
+  </Card>
+
+  <Card title="solid-start-paraglide" id="solid-start-paraglide">
+    Server-side rendered (SSR) TanStack Start application using compiler-driven Paraglide JS translations.
+
+    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/solid/start/paraglide) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/solid/start/paraglide?preset=node)
   </Card>
 </Cards>
 
 ---
 
-### Solid Router
+### TanStack Router (SPA)
 
 <Cards>
-  <Card title="solid-router-paraglide" id="solid-router-paraglide">
-    Client-side SPA Solid Router application integrated with Paraglide JS.
-
-    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/solid/router/paraglide) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/solid/router/paraglide?preset=node)
-  </Card>
-
   <Card title="solid-router-solid-primitives-i18n" id="solid-router-solid-primitives-i18n">
-    SPA client-side Solid Router application using `@solid-primitives/i18n` dictionary utilities.
+    SPA client-side TanStack Router application using `@solid-primitives/i18n` dictionary utilities.
 
     [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/solid/router/solid-primitives-i18n) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/solid/router/solid-primitives-i18n?preset=node)
+  </Card>
+
+  <Card title="solid-router-paraglide" id="solid-router-paraglide">
+    Client-side SPA TanStack Router application integrated with Paraglide JS.
+
+    [GitHub](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/solid/router/paraglide) • [StackBlitz](https://stackblitz.com/github/Wadiou/tanstack-i18n/tree/main/examples/solid/router/paraglide?preset=node)
   </Card>
 </Cards>

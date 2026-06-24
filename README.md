@@ -12,37 +12,6 @@
 - Browser language detection when no preference exists yet
 - React and Solid bindings — bring your own translation library
 
-## Install
-
-```bash
-pnpm add @Wadiou/tanstack-i18n
-```
-
-Peer dependencies are optional — install only what your stack uses. See [package README](packages/tanstack-i18n/README.md) for exports and peer dependencies.
-
-## Quick start
-
-```ts
-import {
-  defineLocaleConfig,
-  createLocaleRuntime,
-  cookie,
-  acceptLanguage,
-} from "@Wadiou/tanstack-i18n";
-
-const config = defineLocaleConfig({
-  locales: ["en", "ar"],
-  defaultLocale: "en",
-  url: { prefix: "always" },
-  adapters: {
-    persist: [cookie({ name: "LOCALE" })],
-    infer: [acceptLanguage()],
-  },
-});
-
-export const locale = createLocaleRuntime(config);
-```
-
 ## Links
 
 - [Package README](packages/tanstack-i18n/README.md) — exports, peers, behavior contract
