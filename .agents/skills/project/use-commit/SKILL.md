@@ -64,6 +64,7 @@ type(scope): imperative subject
 | Part | Rule |
 |------|------|
 | Subject | ≤100 chars, no trailing period |
+| Body | ≤100 chars per line (commitlint rule) |
 | Type | `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert` |
 | Scope | **Required** — enum below |
 

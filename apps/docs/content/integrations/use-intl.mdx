@@ -37,28 +37,35 @@ description: Wire use-intl with TanStack i18n — message catalogs, IntlProvider
 pnpm add use-intl
 ```
 
-Peer: `react`. Keep `@Wadiou/tanstack-i18n` and subpaths from the guides. use-intl is the [core library](https://next-intl.dev/docs/environments/core-library) — APIs are `IntlProvider` and `use-intl`, not `NextIntlClientProvider`.
+Keep `@Wadiou/tanstack-i18n` and subpaths from the guides. use-intl is the [core library](https://next-intl.dev/docs/environments/core-library) — APIs are `IntlProvider` and `use-intl`, not `NextIntlClientProvider`.
 
 </Step>
 <Step>
 
 ### Add message files
 
-Organize copy per locale and namespace. For the marketing site, start with `Landing` and `Common`:
+Organize copy per locale and namespace. For the marketing site, start with `Landing` and `Common` under your `messages/` folder (e.g., `src/messages/en/landing.json`):
 
 ```json
-// i18n/messages/en/landing.json
 {
   "hero": "Welcome to our site",
-  "aboutLink": "About us"
+  "nav": {
+    "homeLink": "Home",
+    "aboutLink": "About us",
+    "programmaticHome": "Programmatic Home"
+  }
 }
 ```
 
 ```json
-// i18n/messages/ar/landing.json
+// src/messages/ar/landing.json
 {
   "hero": "مرحبًا بكم في موقعنا",
-  "aboutLink": "من نحن"
+  "nav": {
+    "homeLink": "الرئيسية",
+    "aboutLink": "من نحن",
+    "programmaticHome": "الرئيسية برمجياً"
+  }
 }
 ```
 
@@ -66,19 +73,13 @@ Merge namespaces into one object use-intl expects:
 
 ```ts
 // src/i18n/merge-messages.ts
-import type enLanding from "@/i18n/messages/en/landing.json";
-import type enCommon from "@/i18n/messages/en/common.json";
+import type { LocaleMessageModules, Messages } from "@/types/i18n";
 
-export type Messages = {
-  Landing: typeof enLanding;
-  Common: typeof enCommon;
-};
-
-export function mergeMessages(m: {
-  landing: typeof enLanding;
-  common: typeof enCommon;
-}): Messages {
-  return { Landing: m.landing, Common: m.common };
+export function mergeMessages(m: LocaleMessageModules): Messages {
+  return {
+    Common: m.common,
+    Landing: m.landing,
+  };
 }
 ```
 
@@ -86,14 +87,45 @@ Per-locale barrels import JSON and call `mergeMessages`:
 
 ```ts
 // src/i18n/locales/en.ts
-import landing from "@/i18n/messages/en/landing.json";
-import common from "@/i18n/messages/en/common.json";
+import common from "@/messages/en/common.json";
+import landing from "@/messages/en/landing.json";
 import { mergeMessages } from "../merge-messages";
 
-export default mergeMessages({ landing, common });
+export default mergeMessages({ common, landing });
 ```
 
 Message loading stays **app code** — TanStack i18n does not ship catalogs.
+
+</Step>
+<Step>
+
+### Configure type definitions
+
+Augment use-intl for autocomplete on namespace keys. Create a type declaration file:
+
+```ts
+// src/types/i18n.d.ts
+import type enCommon from "@/messages/en/common.json";
+import type enLanding from "@/messages/en/landing.json";
+
+export type SupportedLocale = "en" | "ar";
+
+export interface Messages {
+  Common: typeof enCommon;
+  Landing: typeof enLanding;
+}
+
+export type LocaleMessageModules = {
+  [K in keyof Messages as Lowercase<K>]: Messages[K];
+};
+
+declare module "use-intl" {
+  interface AppConfig {
+    Locale: SupportedLocale;
+    Messages: Messages;
+  }
+}
+```
 
 </Step>
 <Step>
@@ -104,14 +136,17 @@ Dynamic import per locale keeps bundles split:
 
 ```ts
 // src/i18n/load-messages.ts
-import type { Messages } from "./merge-messages";
+import type { SupportedLocale, Messages } from "@/types/i18n";
 
 const loaders = {
   en: () => import("./locales/en"),
   ar: () => import("./locales/ar"),
-} as const satisfies Record<string, () => Promise<{ default: Messages }>>;
+} as const satisfies Record<
+  SupportedLocale,
+  () => Promise<{ default: Messages }>
+>;
 
-export async function loadMessages(locale: keyof typeof loaders): Promise<Messages> {
+export async function loadMessages(locale: SupportedLocale): Promise<Messages> {
   const { default: messages } = await loaders[locale]();
   return messages;
 }
@@ -128,12 +163,10 @@ Resolve locale with the runtime, then load messages. On `__root.tsx`:
 import { createRootRouteWithContext } from "@tanstack/react-router";
 import { getLocale } from "@/locale";
 import { loadMessages } from "@/i18n/load-messages";
-import type { Messages } from "@/i18n/merge-messages";
-
-type Locale = "en" | "ar";
+import type { SupportedLocale, Messages } from "@/types/i18n";
 
 interface RouterContext {
-  locale: Locale;
+  locale: SupportedLocale;
   messages: Messages;
 }
 
@@ -165,15 +198,13 @@ function RootComponent() {
   const { locale, messages } = Route.useRouteContext();
 
   return (
-    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
-      <body>
-        <IntlProvider locale={locale} messages={messages} timeZone="UTC">
-          <LocaleProvider>
-            <Outlet />
-          </LocaleProvider>
-        </IntlProvider>
-      </body>
-    </html>
+    <div dir={locale === "ar" ? "rtl" : "ltr"} lang={locale}>
+      <IntlProvider locale={locale} messages={messages} timeZone="UTC">
+        <LocaleProvider>
+          <Outlet />
+        </LocaleProvider>
+      </IntlProvider>
+    </div>
   );
 }
 ```
@@ -199,7 +230,7 @@ export const { LocaleProvider, useLocaleContext } = createLocaleProvider({
 });
 ```
 
-This replaces hand-rolled switch logic (cookie + URL rewrite + invalidate) with **`setLocale`** from [Change locale](/guides/change-locale). Mount `LocaleProvider` inside `IntlProvider`, both under the router (TanStack Start `RootComponent` is already inside the router).
+This replaces hand-rolled switch logic (cookie + URL rewrite + invalidate) with **`setLocale`** from [Change locale](/guides/change-locale). Mount `LocaleProvider` inside `IntlProvider`, both under the router.
 
 </Step>
 <Step>
@@ -216,7 +247,7 @@ function MarketingHeader() {
   return (
     <header>
       <h1>{t("hero")}</h1>
-      <LocalizedLink to="/about">{t("aboutLink")}</LocalizedLink>
+      <LocalizedLink to="/about">{t("nav.aboutLink")}</LocalizedLink>
     </header>
   );
 }
@@ -256,61 +287,14 @@ Do **not** add a second locale setter from use-intl — TanStack i18n owns the s
 </Step>
 <Step>
 
-### Switch flow end-to-end
-
-When the user picks `ar`:
-
-1. `setLocale("ar")` — no-op if already `ar`
-2. Persist adapters write (cookie)
-3. URL updates via `history.replaceState` — package `changeLocale` does this before invalidate so `getLocale()` sees the new prefix
-4. `router.invalidate()` re-runs root `beforeLoad`
-5. `loadMessages("ar")` returns Arabic catalogs
-6. `IntlProvider` re-renders with new props → `useTranslations` updates
-
-```mermaid
-sequenceDiagram
-  participant UI as LanguageSwitcher
-  participant LP as LocaleProvider
-  participant RT as locale runtime
-  participant R as Router beforeLoad
-  participant IP as IntlProvider
-  UI->>LP: setLocale ar
-  LP->>RT: changeLocale
-  RT->>RT: persist + replaceState URL
-  LP->>R: invalidate
-  R->>R: getLocale + loadMessages
-  R->>IP: locale messages props
-```
-
-</Step>
-<Step>
-
 ### SSR vs SPA
 
-**For Full-stack (SSR):** On the server, `beforeLoad` runs with the incoming request — `getLocale()` resolves from URL and cookies the same way as on the client. Pass the result to `IntlProvider` so SSR markup matches hydration. If you call `getLocale()` outside the server entry, make sure to use the isomorphic helper — see [Locale runtime](/guides/locale-runtime).
+**For Full-stack (SSR):** On the server, `beforeLoad` runs with the incoming request — `getLocale()` resolves from URL and cookies the same way as on the client. Wrap the document with `html` and `body` tags in the root route component, and pass the resolved locale and direction to them.
 
-**For Single Page Applications (SPA):** You do not need an isomorphic helper. You can call `locale.getLocale()` directly from the runtime object inside `beforeLoad` or any other client-side code, relying on the `localStorage` adapter to persist settings.
+**For Single Page Applications (SPA):** You do not need an isomorphic helper. You can call `locale.getLocale()` directly from the runtime object inside `beforeLoad` or any other client-side code, relying on the `localStorage` adapter to persist settings. Wrap with a root `div` container instead of `html` and `body` tags.
 
 </Step>
 </Steps>
-
-## How it works
-
-```mermaid
-flowchart TB
-  SE[createServerEntry]
-  BL["__root beforeLoad"]
-  GL[getLocale]
-  LM[loadMessages]
-  RC[Route context]
-  IP[IntlProvider]
-  LP[LocaleProvider]
-  PG[Pages useTranslations]
-  SE --> BL
-  BL --> GL --> LM --> RC --> IP --> LP --> PG
-```
-
-TanStack i18n resolves **which locale is active**. Your app loads **messages for that locale** and passes both into `IntlProvider`. Switching re-enters `beforeLoad` — no manual cache invalidation inside use-intl.
 
 ## Custom vs package
 
@@ -327,48 +311,23 @@ TanStack i18n resolves **which locale is active**. Your app loads **messages for
 
 ```
 src/
-  locale.ts                    # createLocaleRuntime export & isomorphic helpers
+  locale.ts                    # createLocaleRuntime export & helpers
+  messages/                    # JSON message catalogs
+    en/
+      landing.json
+      common.json
+    ar/
+      landing.json
+      common.json
   i18n/
     merge-messages.ts
     load-messages.ts
     locales/en.ts
     locales/ar.ts
     provider.tsx                 # createLocaleProvider + useLocale from use-intl
-    routes.tsx                   # LocalizedLink from guides
+    routes.ts                    # LocalizedLink from guides
   routes/__root.tsx              # beforeLoad + IntlProvider + LocaleProvider
-i18n/messages/
-  en/landing.json
-  ar/landing.json
 ```
-
-## Optional — typed message keys
-
-Augment use-intl for autocomplete on namespace keys:
-
-```ts
-// src/types/i18n.d.ts
-import type { Messages } from "@/i18n/merge-messages";
-
-declare module "use-intl" {
-  interface AppConfig {
-    Messages: Messages;
-    Locale: "en" | "ar";
-  }
-}
-```
-
-## Optional — server-only strings
-
-For loader copy without React:
-
-```ts
-import { createTranslator } from "use-intl/core";
-
-const t = createTranslator({ locale: "en", messages });
-t("Landing.hero");
-```
-
-See [use-intl core library](https://next-intl.dev/docs/environments/core-library).
 
 ## API reference
 

@@ -5,16 +5,376 @@ description: Pair TanStack i18n locale routing with FormatJS react-intl.
 
 **Supported Frameworks:** `React`
 
-**react-intl** (FormatJS) provides `IntlProvider`, `useIntl`, and `FormattedMessage`. TanStack i18n handles URL locale, server entry, persist adapters, and `setLocale` — react-intl handles catalogs and formatting for the active locale.
-
-Wire `IntlProvider` with `locale` and `messages` from root `beforeLoad` (after `locale.getLocale()`), nest `LocaleProvider` inside it, and pass `useLocale` from react-intl to `createLocaleProvider`. See the [use-intl guide](/integrations/use-intl) for the canonical tree and switch semantics — the shape is the same with different provider and hook names.
-
 <Callout type="info">
-Full react-intl recipe is planned. Follow [use-intl](/integrations/use-intl) for `beforeLoad`, provider order, and `setLocale` until this page expands.
+  **Runnable References:**
+  - **React Start (SSR)**: [`examples/react/start/react-intl/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/start/react-intl)
+  - **React Router (SPA)**: [`examples/react/router/react-intl/`](https://github.com/Wadiou/tanstack-i18n/tree/main/examples/react/router/react-intl)
 </Callout>
 
-## Related
+**react-intl** (FormatJS) provides `IntlProvider`, `useIntl`, and `FormattedMessage`. TanStack i18n handles URL locale, server entry, persist adapters, and `setLocale` — react-intl handles catalogs and formatting for the active locale.
 
-- [Integrations hub](/integrations)
-- [use-intl](/integrations/use-intl) — primary integration example
-- [Change locale](/guides/change-locale)
+Because FormatJS expects a flat key-value map for message translation IDs (e.g., `Common.switchLanguage`), we flatten nested multi-level namespace objects into dot-separated paths during message loading.
+
+## Prerequisites
+
+- Guides through [Change locale](/guides/change-locale)
+- [Locale runtime](/guides/locale-runtime) exports `locale`
+- [TanStack Start](/guides/tanstack-start) server entry wraps `handler.fetch` (if using SSR)
+
+### Responsibility split
+
+| Layer | Owns | Package |
+| ----- | ---- | ------- |
+| URL locale, redirects, cookie, `setLocale` | Routing + persist | `@Wadiou/tanstack-i18n` |
+| Message catalogs, `intl.formatMessage()`, formatting | Translation | `react-intl` |
+
+**Critical rule:** Switch language with **`setLocale` from `useLocaleContext`** — not a separate locale setter inside react-intl. After `setLocale`: persist + URL update + `router.invalidate()` → root `beforeLoad` re-runs → `loadMessages` → `IntlProvider` gets new `locale` and `messages`.
+
+<Steps>
+<Step>
+
+### Install react-intl
+
+```bash
+pnpm add react-intl
+```
+
+</Step>
+<Step>
+
+### Add message files
+
+Organize copy per locale and namespace. For the marketing site, start with `landing.json` and `common.json` under your `messages/` folder (e.g., `src/messages/en/landing.json`):
+
+```json
+{
+  "nav": {
+    "homeLink": "Home",
+    "aboutLink": "About"
+  },
+  "hero": "Welcome to our site"
+}
+```
+
+FormatJS requires a flat catalog. Create helper utilities to flatten nested namespace structures and merge all modules into one:
+
+```ts
+// src/i18n/flat-messages.ts
+export function flattenMessages(
+  nestedMessages: unknown,
+  prefix = ""
+): Record<string, string> {
+  if (nestedMessages === null || typeof nestedMessages !== "object") {
+    return { [prefix]: String(nestedMessages) };
+  }
+  const messages: Record<string, string> = {};
+  for (const [key, value] of Object.entries(
+    nestedMessages as Record<string, unknown>
+  )) {
+    const prefixedKey = prefix ? `${prefix}.${key}` : key;
+    if (typeof value === "object" && value !== null) {
+      Object.assign(messages, flattenMessages(value, prefixedKey));
+    } else {
+      messages[prefixedKey] = String(value);
+    }
+  }
+  return messages;
+}
+```
+
+```ts
+// src/i18n/merge-messages.ts
+import type { LocaleMessageModules, Messages } from "@/types/i18n";
+import { flattenMessages } from "./flat-messages";
+
+export function mergeMessages(m: LocaleMessageModules): Messages {
+  return {
+    ...flattenMessages(m.common, "Common"),
+    ...flattenMessages(m.landing, "Landing"),
+  } as Messages;
+}
+```
+
+Per-locale barrels import the nested JSON catalogs and call `mergeMessages`:
+
+```ts
+// src/i18n/locales/en.ts
+import common from "@/messages/en/common.json";
+import landing from "@/messages/en/landing.json";
+import { mergeMessages } from "../merge-messages";
+
+export default mergeMessages({ common, landing });
+```
+
+</Step>
+<Step>
+
+### Configure type definitions
+
+FormatJS allows merging a global interface to provide type checking for message translation IDs. Create a type declaration file:
+
+```ts
+// src/types/i18n.d.ts
+import type enCommon from "@/messages/en/common.json";
+import type enLanding from "@/messages/en/landing.json";
+
+export type SupportedLocale = "en" | "ar";
+
+export interface LocaleMessageModules {
+  common: typeof enCommon;
+  landing: typeof enLanding;
+}
+
+type FlattenKeys<T, Prefix extends string = ""> = {
+  [K in keyof T & string]: T[K] extends Record<string, unknown>
+    ? FlattenKeys<T[K], `${Prefix}${K}.`>
+    : `${Prefix}${K}`;
+}[keyof T & string];
+
+export type Messages = {
+  [K in keyof LocaleMessageModules as FlattenKeys<
+    LocaleMessageModules[K],
+    `${Capitalize<K & string>}.`
+  >]: string;
+};
+
+declare global {
+  namespace FormatjsIntl {
+    interface Message {
+      ids: keyof Messages;
+    }
+  }
+}
+```
+
+</Step>
+<Step>
+
+### Implement loadMessages
+
+Dynamic import per locale keeps bundles split:
+
+```ts
+// src/i18n/load-messages.ts
+import type { SupportedLocale, Messages } from "@/types/i18n";
+
+const loaders = {
+  en: () => import("./locales/en"),
+  ar: () => import("./locales/ar"),
+} as const satisfies Record<
+  SupportedLocale,
+  () => Promise<{ default: Messages }>
+>;
+
+export async function loadMessages(locale: SupportedLocale): Promise<Messages> {
+  const { default: messages } = await loaders[locale]();
+  return messages;
+}
+```
+
+</Step>
+<Step>
+
+### Root beforeLoad — locale + messages
+
+Resolve locale with the runtime, then load messages. On `__root.tsx`:
+
+```ts
+import { createRootRouteWithContext } from "@tanstack/react-router";
+import { getLocale } from "@/locale";
+import { loadMessages } from "@/i18n/load-messages";
+import type { SupportedLocale, Messages } from "@/types/i18n";
+
+interface RouterContext {
+  locale: SupportedLocale;
+  messages: Messages;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
+  beforeLoad: async () => {
+    const active = await getLocale();
+    const messages = await loadMessages(active);
+    return { locale: active, messages };
+  },
+  component: RootComponent,
+});
+```
+
+</Step>
+<Step>
+
+### IntlProvider (outer) — pass loader data
+
+`RootComponent` reads route context and wraps the tree. **`IntlProvider` is outer**; `LocaleProvider` is inner:
+
+```tsx
+import { IntlProvider } from "react-intl";
+import { Outlet } from "@tanstack/react-router";
+import { LocaleProvider } from "@/i18n/provider";
+
+function RootComponent() {
+  const { locale: activeLocale, messages } = Route.useRouteContext();
+
+  return (
+    <div dir={activeLocale === "ar" ? "rtl" : "ltr"} lang={activeLocale}>
+      <IntlProvider locale={activeLocale} messages={messages} timeZone="UTC">
+        <LocaleProvider>
+          <Outlet />
+        </LocaleProvider>
+      </IntlProvider>
+    </div>
+  );
+}
+```
+
+</Step>
+<Step>
+
+### createLocaleProvider (inner) — bridge hook
+
+Pass a custom hook bridging the active locale from FormatJS:
+
+```ts
+// src/i18n/provider.tsx
+import { createLocaleProvider } from "@Wadiou/tanstack-i18n/react";
+import { useIntl } from "react-intl";
+import { locale } from "@/locale";
+
+export function useLocale() {
+  return useIntl().locale;
+}
+
+export const { LocaleProvider, useLocaleContext } = createLocaleProvider({
+  runtime: locale,
+  useLocale,
+});
+```
+
+</Step>
+<Step>
+
+### Translate a page
+
+Inject the `useIntl` hook and use the typed `formatMessage` function:
+
+```tsx
+import { useIntl } from "react-intl";
+import { LocalizedLink } from "@/i18n/routes";
+
+function MarketingHeader() {
+  const intl = useIntl();
+
+  return (
+    <header>
+      <h1>{intl.formatMessage({ id: "Landing.hero" })}</h1>
+      <LocalizedLink to="/about">
+        {intl.formatMessage({ id: "Landing.nav.aboutLink" })}
+      </LocalizedLink>
+    </header>
+  );
+}
+```
+
+</Step>
+<Step>
+
+### Language switcher
+
+Keep the switcher from [Change locale](/guides/change-locale):
+
+```tsx
+function LanguageSwitcher() {
+  const { locales, locale, setLocale } = useLocaleContext();
+
+  return (
+    <select
+      aria-label="Language"
+      value={locale}
+      onChange={(e) => void setLocale(e.target.value)}
+    >
+      {locales.map((code) => (
+        <option key={code} value={code}>
+          {code === "en" ? "English" : "العربية"}
+        </option>
+      ))}
+    </select>
+  );
+}
+```
+
+</Step>
+<Step>
+
+### SSR vs SPA
+
+**For Full-stack (SSR):** On the server, `beforeLoad` runs with the incoming request — `getLocale()` resolves from URL and cookies the same way as on the client. Wrap the document with `html` and `body` tags in the root route component, and pass the resolved locale and direction to them.
+
+**For Single Page Applications (SPA):** You do not need an isomorphic helper. You can call `locale.getLocale()` directly from the runtime object inside `beforeLoad` or any other client-side code, relying on the `localStorage` adapter to persist settings. Wrap with a root `div` container instead of `html` and `body` tags.
+
+</Step>
+</Steps>
+
+## Custom vs package
+
+| Concern | Stays in app code | Provided by TanStack i18n |
+| ------- | ----------------- | ------------------------- |
+| JSON message files | Yes | — |
+| `loadMessages` / merge | Yes | — |
+| Server entry redirects | — | `createServerEntry()` |
+| `getLocale()` | — | `locale.getLocale()` |
+| `setLocale` switch | — | `createLocaleProvider` |
+| `IntlProvider` / `useIntl` | react-intl | — |
+
+## Complete example (file list)
+
+```
+src/
+  locale.ts                    # createLocaleRuntime export & helpers
+  messages/                    # JSON message catalogs
+    en/
+      landing.json
+      common.json
+    ar/
+      landing.json
+      common.json
+  i18n/
+    flat-messages.ts
+    merge-messages.ts
+    load-messages.ts
+    locales/en.ts
+    locales/ar.ts
+    provider.tsx                 # createLocaleProvider + useLocale from react-intl
+    routes.ts                    # LocalizedLink from guides
+  routes/__root.tsx              # beforeLoad + IntlProvider + LocaleProvider
+```
+
+## API reference
+
+### `IntlProvider` (react-intl)
+
+| Prop | Role |
+| ---- | ---- |
+| `locale` | Active locale — from `beforeLoad` / route context |
+| `messages` | Catalog object — from `loadMessages(locale)` |
+| `timeZone` | Optional — e.g. `"UTC"` for consistent dates |
+
+### Hooks (react-intl)
+
+| Hook | Role |
+| ---- | ---- |
+| `useIntl()` | Formatter object (`intl.formatMessage()`) |
+
+### `createLocaleProvider` (@Wadiou/tanstack-i18n/react)
+
+| Dep | Role |
+| --- | ---- |
+| `runtime` | Bound `LocaleRuntime` |
+| `useLocale` | Read-only locale reader — typically `useLocale` that uses react-intl |
+
+Returns `{ LocaleProvider, useLocaleContext }`. Use **`setLocale`** from `useLocaleContext` in UI.
+
+## What's next
+
+- [Paraglide](/integrations/paraglide) and [use-intl](/integrations/use-intl) — same split of concerns; full recipes planned
+- [Behavior contract](/reference/behavior) — locale resolution guarantees
+- Migration from libs that owned URL routing — coming in the Migration section
