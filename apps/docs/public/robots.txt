@@ -3,4 +3,4 @@ Allow: /
 Disallow: /_next/
 Disallow: /static/
 
-Sitemap: https://tanstack-i18n.wadoud.dev/sitemap.xml
+Sitemap: https://tanstack-i18n.wadiou.dev/sitemap.xml

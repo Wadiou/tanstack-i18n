@@ -5,7 +5,8 @@
 	"type": "module",
 	"workspaces": [
 		"apps/*",
-		"packages/*"
+		"packages/*",
+		"examples/*/*/*"
 	],
 	"scripts": {
 		"build": "turbo build",
@@ -20,10 +21,13 @@
 		"commit": "cz",
 		"commit:file": "git commit -F .commit/message",
 		"docs:dev": "pnpm --dir apps/docs run dev",
-		"docs:preview": "pnpm --dir apps/docs run build && pnpm --dir apps/docs run start"
+		"docs:preview": "pnpm --dir apps/docs run build && pnpm --dir apps/docs run start",
+		"version-packages": "changeset version",
+		"release-packages": "pnpm build && changeset publish"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",
+		"@changesets/cli": "^2.31.0",
 		"@commitlint/cli": "catalog:",
 		"@commitlint/config-conventional": "catalog:",
 		"@commitlint/cz-commitlint": "catalog:",

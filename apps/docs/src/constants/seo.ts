@@ -1,4 +1,4 @@
-export const DOMAIN = "https://tanstack-i18n.wadoud.dev";
+export const DOMAIN = "https://tanstack-i18n.wadiou.dev";
 export const TITLE_SUFFIX = " | TanStack i18n";
 export const OG_IMAGE = `${DOMAIN}/assets/header-i18n-og.png`;
 export const OG_ALT = "TanStack i18n Documentation";
