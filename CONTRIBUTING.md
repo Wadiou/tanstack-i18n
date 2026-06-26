@@ -89,6 +89,26 @@ Examples:
 - **Examples**: run `pnpm --dir examples/<name> dev` to run a specific integration example locally.
 - `apps/docs-dev` and `content/tmp/` are local WIP (gitignored) — not the public specification
 
-## Out of scope here
+## Changesets & Releases
 
-Contributor playbooks and release tooling (Changesets, npm publish) will be documented in the docs site and B6 milestones.
+This repository uses [Changesets](https://github.com/changesets/changesets) to manage package versioning and generate changelogs.
+
+### Creating a Changeset (Humans)
+
+If your changes affect `@Wadiou/tanstack-i18n` and should trigger a release:
+
+1. Run the changesets CLI from the repository root:
+   ```bash
+   pnpm changeset
+   ```
+2. Follow the interactive CLI prompts to select:
+   - The package to bump (`@Wadiou/tanstack-i18n`).
+   - The bump type (`patch`, `minor`, or `major`).
+   - A detailed user-facing description of the change for the changelog.
+3. Commit the generated `.changeset/<random-name>.md` file alongside your changes.
+
+### AI Agents Release Guideline
+
+If you are an AI agent working in this repository:
+* Do **NOT** run versioning scripts (`pnpm version-packages` or `pnpm release-packages`) locally.
+* Follow the instructions in the [Release Package](.agents/skills/release/SKILL.md) skill to generate changeset files manually under `.changeset/<descriptive-name>.md`. Only the GitHub Actions release workflow bot is permitted to consume changesets and perform package releases.

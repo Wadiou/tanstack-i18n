@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="./assets/Header-i18n.png" alt="TanStack i18n" width="850" />
+  <a href="https://tanstack-i18n.wadiou.dev">
+    <img src="./assets/Header-i18n.png" alt="TanStack i18n" width="850" />
+  </a>
 </p>
 
 <p align="center">
@@ -14,8 +16,8 @@
 
 ## Links
 
-- [Package README](packages/tanstack-i18n/README.md) — exports, peers, behavior contract
-- [Contributing](CONTRIBUTING.md)
-- [Docs site](apps/docs) — run `pnpm docs:dev` locally
+- [Documentation](https://tanstack-i18n.wadiou.dev)
+- [Package README](packages/tanstack-i18n/README.md) — exports, peer dependencies, and features
+- [Contributing](CONTRIBUTING.md) — local development, guidelines, and releases
 
 License: [MIT](./LICENSE)

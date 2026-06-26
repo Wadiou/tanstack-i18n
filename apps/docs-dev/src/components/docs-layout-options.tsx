@@ -5,7 +5,7 @@ import { buildGithubRepoUrl } from "@/lib/git-config";
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: <DocsLogo className="h-12 w-auto" />,
+      title: <DocsLogo className="h-10 w-auto" />,
     },
     githubUrl: buildGithubRepoUrl(),
   };

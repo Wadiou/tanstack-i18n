@@ -1,38 +1,51 @@
 # @Wadiou/tanstack-i18n
 
-**Install, quick start, and development:** see the [repository README](../../README.md).
+Locale routing, persistence, and TanStack Start/Router adapters for i18n.
 
-## Exports
+For full installation instructions, guides, and API references, visit the [TanStack i18n Documentation](https://tanstack-i18n.wadiou.dev).
+
+## Quick Links
+
+- [Documentation Website](https://tanstack-i18n.wadiou.dev)
+- [GitHub Repository](https://github.com/Wadiou/tanstack-i18n)
+- [Contributing Guide](https://github.com/Wadiou/tanstack-i18n/blob/main/CONTRIBUTING.md)
+- [Runnable Integration Examples](https://github.com/Wadiou/tanstack-i18n/tree/main/examples)
+
+## Installation
+
+```bash
+pnpm add @Wadiou/tanstack-i18n
+# or bun add @Wadiou/tanstack-i18n
+# or npm i @Wadiou/tanstack-i18n
+```
+
+## Subpath Exports
+
+This package exposes separate subpath entries for different UI frameworks and routers. Import only what you need:
 
 | Subpath | Purpose |
 | ------- | ------- |
-| `.` | `defineLocaleConfig`, `createLocaleRuntime`, adapters, types |
-| `./react-router` | React Router `createNavigation`, `createToLocalizedRoute` |
-| `./solid-router` | Solid Router `createNavigation`, `createToLocalizedRoute` |
-| `./react` | `createLocaleProvider`, `useLocaleContext` |
-| `./solid` | Solid `createLocaleProvider` |
-| `./react-start` | `createServerEntry` and React helpers |
-| `./solid-start` | `createServerEntry` and Solid helpers |
+| `@Wadiou/tanstack-i18n` | Core runtime: `defineLocaleConfig`, `createLocaleRuntime`, persistence adapters, and core types |
+| `@Wadiou/tanstack-i18n/react` | React bindings: `createLocaleProvider`, `useLocaleContext` |
+| `@Wadiou/tanstack-i18n/solid` | Solid JS bindings: `createLocaleProvider` |
+| `@Wadiou/tanstack-i18n/react-router` | React Router / TanStack Router integration: `createNavigation`, `createToLocalizedRoute` |
+| `@Wadiou/tanstack-i18n/solid-router` | Solid Router / TanStack Router integration: `createNavigation`, `createToLocalizedRoute` |
+| `@Wadiou/tanstack-i18n/react-start` | TanStack Start (React) helpers: `createServerEntry` and client/server request utilities |
+| `@Wadiou/tanstack-i18n/solid-start` | TanStack Start (Solid) helpers: `createServerEntry` and client/server request utilities |
 
-## Peer dependencies
+## Peer Dependencies
 
-Optional — install only what your stack uses:
+Please install the peer dependencies corresponding to the subpaths you import in your project:
 
-| Entry | Peers |
-| ----- | ----- |
-| `@Wadiou/tanstack-i18n` | — |
+| Subpath Entry | Peer Dependency |
+| ------------- | --------------- |
+| `@Wadiou/tanstack-i18n` | _None_ |
 | `@Wadiou/tanstack-i18n/react` | `react` |
 | `@Wadiou/tanstack-i18n/solid` | `solid-js` |
 | `@Wadiou/tanstack-i18n/react-router` | `@tanstack/react-router` |
 | `@Wadiou/tanstack-i18n/solid-router` | `@tanstack/solid-router` |
 | `@Wadiou/tanstack-i18n/react-start` | `@tanstack/react-start` |
 | `@Wadiou/tanstack-i18n/solid-start` | `@tanstack/solid-start` |
-
-## Behavior contract
-
-- `LocaleRequestResult` actions: `pass`, `redirect`, `sync-cookie`, `detect`
-- Redirect responses default to HTTP **307** when status is omitted
-- `getLocale()` resolves URL segment → persist adapters → `defaultLocale` (infer adapters are not used)
 
 ## License
 
