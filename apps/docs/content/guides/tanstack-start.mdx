@@ -3,7 +3,7 @@ title: TanStack Start
 description: Configure TanStack Start for i18n routing. Learn how to wrap server entry handlers to support cookies, redirects, and locale detection.
 ---
 
-To use `@Wadiou/tanstack-i18n` with TanStack Start, you need to wrap the **Start fetch handler**. This guide explains how to install the Start subpath, wrap your handler with `createServerEntry`, and walk through what happens when a visitor hits `/` with no cookie — redirect, cookie sync, or detect banner.
+To use `@wadiou/tanstack-i18n` with TanStack Start, you need to wrap the **Start fetch handler**. This guide explains how to install the Start subpath, wrap your handler with `createServerEntry`, and walk through what happens when a visitor hits `/` with no cookie — redirect, cookie sync, or detect banner.
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ export default {
 };
 ```
 
-Install `@Wadiou/tanstack-i18n/react-start` or `@Wadiou/tanstack-i18n/solid-start` if you re-export from that subpath — [Exports and peers](/reference/exports).
+Install `@wadiou/tanstack-i18n/react-start` or `@wadiou/tanstack-i18n/solid-start` if you re-export from that subpath — [Exports and peers](/reference/exports).
 
 The wrapper runs **before** your handler. Your routes see an already-localized request when the action is `pass`, `sync-cookie`, or `detect`.
 

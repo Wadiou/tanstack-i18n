@@ -14,7 +14,7 @@
     "postinstall": "tsr generate"
   },
   "dependencies": {
-    "@Wadiou/tanstack-i18n": "workspace:*",
+    "@wadiou/tanstack-i18n": "workspace:*",
     "@tanstack/react-router": "^1.168.18",
     "i18next": "^24.2.2",
     "react": "^19.0.0",

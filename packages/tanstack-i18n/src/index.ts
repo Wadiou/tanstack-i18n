@@ -1,13 +1,13 @@
 /**
  * @packageDocumentation
- * @Wadiou/tanstack-i18n — locale routing for TanStack apps.
+ * @wadiou/tanstack-i18n — locale routing for TanStack apps.
  *
  * Main entry points:
  * - {@link defineLocaleConfig} — {@link LocaleConfig}
  * - {@link createLocaleRuntime} — {@link LocaleRuntime} handlers
  * - `cookie`, `acceptLanguage`, `serverFn` — adapter factories
  *
- * Subpaths: `@Wadiou/tanstack-i18n/react`, `/solid`, `/react-router`, `/solid-router`, `/react-start`, `/solid-start`.
+ * Subpaths: `@wadiou/tanstack-i18n/react`, `/solid`, `/react-router`, `/solid-router`, `/react-start`, `/solid-start`.
  */
 
 export { defineLocaleConfig } from "./config/define-locale.js";

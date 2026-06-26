@@ -1,6 +1,6 @@
 # react-start-react-i18next
 
-A minimal example demonstrating how to integrate `@Wadiou/tanstack-i18n` with [react-i18next](https://react.i18next.com/) in a TanStack Start application.
+A minimal example demonstrating how to integrate `@wadiou/tanstack-i18n` with [react-i18next](https://react.i18next.com/) in a TanStack Start application.
 
 ## Features
 

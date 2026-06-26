@@ -25,7 +25,7 @@ Because i18next natively supports nested translation keys, no key flattening is 
 
 | Layer | Owns | Package |
 | ----- | ---- | ------- |
-| URL locale, redirects, cookie, `setLocale` | Routing + persist | `@Wadiou/tanstack-i18n` |
+| URL locale, redirects, cookie, `setLocale` | Routing + persist | `@wadiou/tanstack-i18n` |
 | Message catalogs, `t()`, nested namespaces | Translation | `react-i18next` + `i18next` |
 
 **Critical rule:** Switch language with **`setLocale` from `useLocaleContext`** — not a separate locale setter inside react-i18next. After `setLocale`: persist + URL update + `router.invalidate()` → root `beforeLoad` re-runs → `loadMessages` → `I18nextProvider` gets new `locale` and `messages`.
@@ -238,7 +238,7 @@ Pass a custom hook bridging the active locale from i18next:
 
 ```ts
 // src/i18n/provider.tsx
-import { createLocaleProvider } from "@Wadiou/tanstack-i18n/react";
+import { createLocaleProvider } from "@wadiou/tanstack-i18n/react";
 import { useTranslation } from "react-i18next";
 import { locale } from "@/locale";
 
@@ -364,7 +364,7 @@ src/
 | ---- | ---- |
 | `useTranslation(ns?)` | Translation function (`t()`) scoped to the provided namespaces |
 
-### `createLocaleProvider` (@Wadiou/tanstack-i18n/react)
+### `createLocaleProvider` (@wadiou/tanstack-i18n/react)
 
 | Dep | Role |
 | --- | ---- |

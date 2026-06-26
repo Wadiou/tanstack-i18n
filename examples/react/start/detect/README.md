@@ -1,6 +1,6 @@
 # react-start-detect
 
-A minimal example demonstrating how to integrate `@Wadiou/tanstack-i18n` with TanStack Start, showcasing isomorphic header-based locale detection.
+A minimal example demonstrating how to integrate `@wadiou/tanstack-i18n` with TanStack Start, showcasing isomorphic header-based locale detection.
 
 ## Features
 

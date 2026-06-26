@@ -242,7 +242,7 @@ importers:
 
   examples/react/router/paraglide:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@inlang/paraglide-js':
@@ -285,7 +285,7 @@ importers:
 
   examples/react/router/react-i18next:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@tanstack/react-router':
@@ -331,7 +331,7 @@ importers:
 
   examples/react/router/react-intl:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@tanstack/react-router':
@@ -374,7 +374,7 @@ importers:
 
   examples/react/router/use-intl:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@tanstack/react-router':
@@ -417,7 +417,7 @@ importers:
 
   examples/react/start/detect:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@tanstack/react-router':
@@ -466,7 +466,7 @@ importers:
 
   examples/react/start/paraglide:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@inlang/paraglide-js':
@@ -515,7 +515,7 @@ importers:
 
   examples/react/start/react-i18next:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@tanstack/react-router':
@@ -567,7 +567,7 @@ importers:
 
   examples/react/start/react-intl:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@tanstack/react-router':
@@ -616,7 +616,7 @@ importers:
 
   examples/react/start/ssg:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@tanstack/react-router':
@@ -665,7 +665,7 @@ importers:
 
   examples/react/start/use-intl:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@tanstack/react-router':
@@ -714,7 +714,7 @@ importers:
 
   examples/solid/router/paraglide:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@inlang/paraglide-js':
@@ -751,7 +751,7 @@ importers:
 
   examples/solid/router/solid-primitives-i18n:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@solid-primitives/i18n':
@@ -788,7 +788,7 @@ importers:
 
   examples/solid/start/paraglide:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@inlang/paraglide-js':
@@ -828,7 +828,7 @@ importers:
 
   examples/solid/start/solid-primitives-i18n:
     dependencies:
-      '@Wadiou/tanstack-i18n':
+      '@wadiou/tanstack-i18n':
         specifier: workspace:*
         version: link:../../../../packages/tanstack-i18n
       '@solid-primitives/i18n':

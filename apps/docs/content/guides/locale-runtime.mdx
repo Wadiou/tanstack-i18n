@@ -18,7 +18,7 @@ description: Create and bind your locale runtime using createLocaleRuntime. Acce
 Create `src/locale.ts`:
 
 ```ts
-import { createLocaleRuntime } from "@Wadiou/tanstack-i18n";
+import { createLocaleRuntime } from "@wadiou/tanstack-i18n";
 import { config } from "./locale-config";
 
 export const locale = createLocaleRuntime(config);
@@ -36,13 +36,13 @@ Import `locale` in server entry and providers. For reading the active locale on 
 
 To read the active locale correctly during server-side rendering (SSR) and client-side transitions in full-stack frameworks like TanStack Start, wrap the runtime calls in isomorphic helper functions. These resolve request headers and cookies on the server while falling back to the client-side router context in the browser.
 
-We can generate these helpers using `createStartLocaleHelpers` from `@Wadiou/tanstack-i18n/react-start` (for React) or `@Wadiou/tanstack-i18n/solid-start` (for Solid).
+We can generate these helpers using `createStartLocaleHelpers` from `@wadiou/tanstack-i18n/react-start` (for React) or `@wadiou/tanstack-i18n/solid-start` (for Solid).
 
 Update `src/locale.ts` to export these helper functions:
 
 ```ts
-import { createLocaleRuntime } from "@Wadiou/tanstack-i18n";
-import { createStartLocaleHelpers } from "@Wadiou/tanstack-i18n/react-start"; // or /solid-start
+import { createLocaleRuntime } from "@wadiou/tanstack-i18n";
+import { createStartLocaleHelpers } from "@wadiou/tanstack-i18n/react-start"; // or /solid-start
 import { config } from "./locale-config";
 
 export const locale = createLocaleRuntime(config);
@@ -115,8 +115,8 @@ User-initiated switching: [Change locale](/guides/change-locale) — `setLocale`
 
 ```ts
 // src/locale.ts
-import { createLocaleRuntime } from "@Wadiou/tanstack-i18n";
-import { createStartLocaleHelpers } from "@Wadiou/tanstack-i18n/react-start"; // or /solid-start
+import { createLocaleRuntime } from "@wadiou/tanstack-i18n";
+import { createStartLocaleHelpers } from "@wadiou/tanstack-i18n/react-start"; // or /solid-start
 import { config } from "./locale-config";
 
 export const locale = createLocaleRuntime(config);
@@ -129,7 +129,7 @@ export const { getLocale, getDetectedLocale } =
 
 ```ts
 // src/locale.ts
-import { createLocaleRuntime } from "@Wadiou/tanstack-i18n";
+import { createLocaleRuntime } from "@wadiou/tanstack-i18n";
 import { config } from "./locale-config";
 
 export const locale = createLocaleRuntime(config);

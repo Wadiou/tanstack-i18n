@@ -1,6 +1,6 @@
 # react-start-ssg
 
-A complete example demonstrating how to configure **Static Site Generation (SSG)** / **Static Prerendering** in a TanStack Start application integrating `@Wadiou/tanstack-i18n` with `use-intl`.
+A complete example demonstrating how to configure **Static Site Generation (SSG)** / **Static Prerendering** in a TanStack Start application integrating `@wadiou/tanstack-i18n` with `use-intl`.
 
 ## How it Works
 

@@ -28,7 +28,7 @@ describe("LocaleConfigValidator.validate", () => {
       "No locale resolution fallback"
     );
     expect(() => LocaleConfigValidator.validate(locale)).toThrow(
-      "@Wadiou/tanstack-i18n:"
+      "@wadiou/tanstack-i18n:"
     );
   });
 

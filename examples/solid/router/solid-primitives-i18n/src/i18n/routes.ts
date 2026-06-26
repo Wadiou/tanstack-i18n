@@ -1,7 +1,7 @@
 import {
   createNavigation,
   createToLocalizedRoute,
-} from "@Wadiou/tanstack-i18n/solid-router";
+} from "@wadiou/tanstack-i18n/solid-router";
 import { config } from "@/locale-config";
 import type { FileRouteTypes } from "@/routeTree.gen";
 

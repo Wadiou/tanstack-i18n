@@ -1,4 +1,4 @@
-import { createLocaleProvider } from "@Wadiou/tanstack-i18n/solid";
+import { createLocaleProvider } from "@wadiou/tanstack-i18n/solid";
 import { locale } from "@/locale";
 import { useLocale } from "./use-locale";
 

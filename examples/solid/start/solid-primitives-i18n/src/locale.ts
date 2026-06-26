@@ -1,5 +1,5 @@
-import { createLocaleRuntime } from "@Wadiou/tanstack-i18n";
-import { createStartLocaleHelpers } from "@Wadiou/tanstack-i18n/solid-start";
+import { createLocaleRuntime } from "@wadiou/tanstack-i18n";
+import { createStartLocaleHelpers } from "@wadiou/tanstack-i18n/solid-start";
 import type { SupportedLocale } from "./constants/locales";
 import { config } from "./locale-config";
 

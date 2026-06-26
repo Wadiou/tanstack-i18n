@@ -1,6 +1,6 @@
 # solid-start-solid-primitives-i18n
 
-A minimal example demonstrating how to integrate `@Wadiou/tanstack-i18n` with `@solid-primitives/i18n` in a TanStack Solid Start application.
+A minimal example demonstrating how to integrate `@wadiou/tanstack-i18n` with `@solid-primitives/i18n` in a TanStack Solid Start application.
 
 ## Features
 

@@ -1,6 +1,6 @@
 # solid-start-paraglide
 
-A minimal example demonstrating how to integrate `@Wadiou/tanstack-i18n` with [Paraglide JS](https://inlang.com/m/gerre34r/library-inlang-paraglideJs) compile-time messages in a TanStack Solid Start application.
+A minimal example demonstrating how to integrate `@wadiou/tanstack-i18n` with [Paraglide JS](https://inlang.com/m/gerre34r/library-inlang-paraglideJs) compile-time messages in a TanStack Solid Start application.
 
 ## Features
 

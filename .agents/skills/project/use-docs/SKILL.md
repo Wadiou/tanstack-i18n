@@ -1,6 +1,6 @@
 ---
 name: use-docs
-description: Read and author Fumadocs for @Wadiou/tanstack-i18n. Use when editing MDX, meta.json, or the docs app.
+description: Read and author Fumadocs for @wadiou/tanstack-i18n. Use when editing MDX, meta.json, or the docs app.
 ---
 
 # use-docs

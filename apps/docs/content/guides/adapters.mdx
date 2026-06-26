@@ -51,7 +51,7 @@ flowchart LR
 Most marketing visitors are anonymous. When you omit `adapters`, persist defaults to **`[cookie()]`** — same as calling `cookie()` with no arguments:
 
 ```ts
-import { cookie } from "@Wadiou/tanstack-i18n/adapters";
+import { cookie } from "@wadiou/tanstack-i18n/adapters";
 
 cookie()
 ```
@@ -86,7 +86,7 @@ Adapter id: `cookie:LOCALE`. Only **one** `cookie()` allowed in `persist[]`.
 For Single Page Applications (SPAs) that do not use SSR, or where you want to store the selected language completely client-side in the browser:
 
 ```ts
-import { localStorage } from "@Wadiou/tanstack-i18n/adapters";
+import { localStorage } from "@wadiou/tanstack-i18n/adapters";
 
 localStorage()
 ```
@@ -136,7 +136,7 @@ This does **not** run on subsequent `getLocale()` calls — only the server entr
 When the marketing site adds accounts, store locale in session/DB:
 
 ```ts
-import { serverFn } from "@Wadiou/tanstack-i18n/adapters";
+import { serverFn } from "@wadiou/tanstack-i18n/adapters";
 
 serverFn({
   read: async (ctx) => {

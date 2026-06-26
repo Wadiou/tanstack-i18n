@@ -1,6 +1,6 @@
 # react-router-react-i18next
 
-A minimal example demonstrating how to integrate `@Wadiou/tanstack-i18n` with [react-i18next](https://react.i18next.com/) and [i18next](https://www.i18next.com/) in a client-side TanStack Router application.
+A minimal example demonstrating how to integrate `@wadiou/tanstack-i18n` with [react-i18next](https://react.i18next.com/) and [i18next](https://www.i18next.com/) in a client-side TanStack Router application.
 
 ## Features
 

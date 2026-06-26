@@ -9,7 +9,7 @@ To organize routing in your app, TanStack Router needs a **route tree** and navi
 
 - [URL prefix modes](/guides/url-prefix) — `url.segment` default `` `{-$locale}` ``
 - [Locale runtime](/guides/locale-runtime) — `locale` export
-- `@Wadiou/tanstack-i18n/react-router` or `@Wadiou/tanstack-i18n/solid-router` installed — [Exports and peers](/reference/exports)
+- `@wadiou/tanstack-i18n/react-router` or `@wadiou/tanstack-i18n/solid-router` installed — [Exports and peers](/reference/exports)
 - For Full-stack / SSR apps: [TanStack Start](/guides/tanstack-start) — server entry and localized HTTP paths
 
 <Steps>
@@ -39,7 +39,7 @@ App code should not hard-code `"/en/about"`. Create a mapper from config:
 
 ```ts
 // src/i18n/routes.ts
-import { createToLocalizedRoute } from "@Wadiou/tanstack-i18n/react-router"; // or /solid-router
+import { createToLocalizedRoute } from "@wadiou/tanstack-i18n/react-router"; // or /solid-router
 import { config } from "../locale-config";
 
 export const toLocalizedRoute = createToLocalizedRoute(config);
@@ -63,7 +63,7 @@ Type helpers (`DeLocalizedTo`, etc.) keep `to` props aligned with your route tre
 Create navigation helpers once:
 
 ```ts
-import { createNavigation } from "@Wadiou/tanstack-i18n/react-router"; // or /solid-router
+import { createNavigation } from "@wadiou/tanstack-i18n/react-router"; // or /solid-router
 
 export const { LocalizedLink, useLocalizedNavigate, localizedRedirect } =
   createNavigation({ toLocalizedRoute });
@@ -141,7 +141,7 @@ Importing `createToLocalizedRoute` in multiple files with different config slice
 
 ### Solid apps
 
-A dedicated `@Wadiou/tanstack-i18n/solid-router` subpath is fully supported! It exports the exact same `createNavigation` API, but wraps **Solid** Router's `Link`, `useNavigate`, and `redirect` with idiomatic Solid JS patterns. Use it exactly as shown above.
+A dedicated `@wadiou/tanstack-i18n/solid-router` subpath is fully supported! It exports the exact same `createNavigation` API, but wraps **Solid** Router's `Link`, `useNavigate`, and `redirect` with idiomatic Solid JS patterns. Use it exactly as shown above.
 
 </Step>
 </Steps>
@@ -166,7 +166,7 @@ User-initiated locale changes update URL + router: [Change locale](/guides/chang
 
 ```ts
 // src/i18n/routes.ts
-import { createNavigation, createToLocalizedRoute } from "@Wadiou/tanstack-i18n/react-router"; // or /solid-router
+import { createNavigation, createToLocalizedRoute } from "@wadiou/tanstack-i18n/react-router"; // or /solid-router
 import { config } from "../locale-config";
 
 export const toLocalizedRoute = createToLocalizedRoute(config);
@@ -192,7 +192,7 @@ Returns `(to) => routeId` using `config.url.segment` (default `` `{-$locale}` ``
 
 ### Type helpers
 
-`DeLocalizedTo`, `LocalePrefixedRoutes`, `LocalizedLinkProps`, etc. — exported from `@Wadiou/tanstack-i18n/react-router` and `@Wadiou/tanstack-i18n/solid-router` for typed route trees.
+`DeLocalizedTo`, `LocalePrefixedRoutes`, `LocalizedLinkProps`, etc. — exported from `@wadiou/tanstack-i18n/react-router` and `@wadiou/tanstack-i18n/solid-router` for typed route trees.
 
 ## What's next
 

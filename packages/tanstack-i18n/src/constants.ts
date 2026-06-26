@@ -1,21 +1,21 @@
 /** Package constants and error message helpers. */
 
 /** npm package name — must match package.json `"name"`. */
-export const PACKAGE_NAME = "@Wadiou/tanstack-i18n" as const;
+export const PACKAGE_NAME = "@wadiou/tanstack-i18n" as const;
 
 /** Subpath import map for framework adapter entry modules. */
 export const PACKAGE_SUBPATHS = {
-  /** `@Wadiou/tanstack-i18n/react-router` — localized route ids and navigation. */
+  /** `@wadiou/tanstack-i18n/react-router` — localized route ids and navigation. */
   reactRouter: `${PACKAGE_NAME}/react-router`,
-  /** `@Wadiou/tanstack-i18n/solid-router` — localized route ids and navigation. */
+  /** `@wadiou/tanstack-i18n/solid-router` — localized route ids and navigation. */
   solidRouter: `${PACKAGE_NAME}/solid-router`,
-  /** `@Wadiou/tanstack-i18n/react` — `createLocaleProvider`. */
+  /** `@wadiou/tanstack-i18n/react` — `createLocaleProvider`. */
   react: `${PACKAGE_NAME}/react`,
-  /** `@Wadiou/tanstack-i18n/react-start` — server entry wrapper and react helpers. */
+  /** `@wadiou/tanstack-i18n/react-start` — server entry wrapper and react helpers. */
   reactStart: `${PACKAGE_NAME}/react-start`,
-  /** `@Wadiou/tanstack-i18n/solid-start` — server entry wrapper and solid helpers. */
+  /** `@wadiou/tanstack-i18n/solid-start` — server entry wrapper and solid helpers. */
   solidStart: `${PACKAGE_NAME}/solid-start`,
-  /** `@Wadiou/tanstack-i18n/solid` — `createLocaleProvider`. */
+  /** `@wadiou/tanstack-i18n/solid` — `createLocaleProvider`. */
   solid: `${PACKAGE_NAME}/solid`,
 } as const;
 

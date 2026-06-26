@@ -20,7 +20,7 @@ Start with the smallest valid config — `locales` and `defaultLocale`. Everythi
 Create `src/locale-config.ts`:
 
 ```ts
-import { defineLocaleConfig } from "@Wadiou/tanstack-i18n";
+import { defineLocaleConfig } from "@wadiou/tanstack-i18n";
 
 export const config = defineLocaleConfig({
   locales: ["en", "ar"],
@@ -62,7 +62,7 @@ Visitors who pick a language keep it on the next visit. Persist adapters run on 
 Override the cookie only when you need a custom name or attributes:
 
 ```ts
-import { cookie } from "@Wadiou/tanstack-i18n";
+import { cookie } from "@wadiou/tanstack-i18n";
 
 adapters: {
   persist: [cookie({ name: "MY_LOCALE", sameSite: "strict" })],
@@ -79,7 +79,7 @@ Cookie options and server vs client behavior: [Adapters](/guides/adapters).
 Before a cookie exists, the server can guess from `Accept-Language`. That belongs in **infer**, not persist — and you opt in explicitly:
 
 ```ts
-import { acceptLanguage } from "@Wadiou/tanstack-i18n/adapters";
+import { acceptLanguage } from "@wadiou/tanstack-i18n/adapters";
 
 adapters: {
   infer: [acceptLanguage()],
@@ -108,7 +108,7 @@ firstVisit: {
 },
 ```
 
-Detect wiring on Start: [TanStack Start](/guides/tanstack-start). Default header constant: `DEFAULT_DETECTED_LOCALE_HEADER` from `@Wadiou/tanstack-i18n`.
+Detect wiring on Start: [TanStack Start](/guides/tanstack-start). Default header constant: `DEFAULT_DETECTED_LOCALE_HEADER` from `@wadiou/tanstack-i18n`.
 
 </Step>
 <Step>
@@ -165,8 +165,8 @@ Normalization fills defaults you omit — see API reference below. Bind-time val
 `src/locale-config.ts` for the marketing site:
 
 ```ts
-import { defineLocaleConfig } from "@Wadiou/tanstack-i18n";
-import { acceptLanguage } from "@Wadiou/tanstack-i18n/adapters";
+import { defineLocaleConfig } from "@wadiou/tanstack-i18n";
+import { acceptLanguage } from "@wadiou/tanstack-i18n/adapters";
 
 export const config = defineLocaleConfig({
   locales: ["en", "ar"],

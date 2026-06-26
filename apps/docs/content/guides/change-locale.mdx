@@ -20,7 +20,7 @@ TanStack i18n does not ship message catalogs. The provider reads locale from **y
 
 ```ts
 // src/i18n/provider.tsx
-import { createLocaleProvider } from "@Wadiou/tanstack-i18n/react";
+import { createLocaleProvider } from "@wadiou/tanstack-i18n/react";
 import { locale } from "../locale";
 import { useLocale } from "./use-locale"; // wraps use-intl, route, etc.
 
@@ -85,10 +85,10 @@ Flow details: persist writes in [Adapters](/guides/adapters); resolution order i
 
 ### Solid marketing site
 
-Same API from `@Wadiou/tanstack-i18n/solid`:
+Same API from `@wadiou/tanstack-i18n/solid`:
 
 ```ts
-import { createLocaleProvider } from "@Wadiou/tanstack-i18n/solid";
+import { createLocaleProvider } from "@wadiou/tanstack-i18n/solid";
 
 export const { LocaleProvider, useLocaleContext } = createLocaleProvider({
   runtime: locale,

@@ -1,5 +1,5 @@
 {
-	"name": "@Wadiou/tanstack-i18n-workspace",
+	"name": "@wadiou/tanstack-i18n-workspace",
 	"license": "MIT",
 	"private": true,
 	"type": "module",
@@ -23,7 +23,7 @@
 		"docs:dev": "pnpm --dir apps/docs run dev",
 		"docs:preview": "pnpm --dir apps/docs run build && pnpm --dir apps/docs run start",
 		"version-packages": "changeset version",
-		"release-packages": "pnpm build && changeset publish"
+		"release-packages": "pnpm --filter @wadiou/tanstack-i18n run build && changeset publish"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",

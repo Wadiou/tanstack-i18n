@@ -21,7 +21,7 @@ Ensure you immediately clean up, rename, and update all configurations in the du
 ### package.json
 - **`name`**: Set to the unscoped pattern `example-<framework>-<type>-<library>` (e.g., `example-solid-start-use-intl`).
 - **`private`**: Must be set to `true`.
-- **Dependencies**: Update dependencies and devDependencies to fit the new integration (e.g., swap `@inlang/paraglide-js` for `use-intl`). Ensure `@Wadiou/tanstack-i18n` is defined as a workspace dependency.
+- **Dependencies**: Update dependencies and devDependencies to fit the new integration (e.g., swap `@inlang/paraglide-js` for `use-intl`). Ensure `@wadiou/tanstack-i18n` is defined as a workspace dependency.
 
 ### biome.jsonc
 - Update the `"extends"` property to match the root `biome.jsonc` file:

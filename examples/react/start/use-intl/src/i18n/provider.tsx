@@ -1,4 +1,4 @@
-import { createLocaleProvider } from "@Wadiou/tanstack-i18n/react";
+import { createLocaleProvider } from "@wadiou/tanstack-i18n/react";
 import { useLocale } from "use-intl";
 import { locale } from "@/locale";
 

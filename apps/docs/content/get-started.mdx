@@ -16,28 +16,28 @@ We provide consolidated text indexes and raw Markdown routes optimized for LLMs 
 <Tab value="pnpm">
 
 ```bash
-pnpm add @Wadiou/tanstack-i18n
+pnpm add @wadiou/tanstack-i18n
 ```
 
 </Tab>
 <Tab value="npm">
 
 ```bash
-npm install @Wadiou/tanstack-i18n
+npm install @wadiou/tanstack-i18n
 ```
 
 </Tab>
 <Tab value="yarn">
 
 ```bash
-yarn add @Wadiou/tanstack-i18n
+yarn add @wadiou/tanstack-i18n
 ```
 
 </Tab>
 <Tab value="bun">
 
 ```bash
-bun add @Wadiou/tanstack-i18n
+bun add @wadiou/tanstack-i18n
 ```
 
 </Tab>
@@ -45,8 +45,8 @@ bun add @Wadiou/tanstack-i18n
 
 The core package gives you locale config and runtime. Add subpaths for the stack you actually use:
 
-- **React + TanStack Start and Router** — `@Wadiou/tanstack-i18n/react` for a locale provider, plus `@Wadiou/tanstack-i18n/react-router` and `@Wadiou/tanstack-i18n/react-start` when you wire routing and the server entry.
-- **Solid** — `@Wadiou/tanstack-i18n/solid` with `@Wadiou/tanstack-i18n/solid-router` and `@Wadiou/tanstack-i18n/solid-start` for the same roles.
+- **React + TanStack Start and Router** — `@wadiou/tanstack-i18n/react` for a locale provider, plus `@wadiou/tanstack-i18n/react-router` and `@wadiou/tanstack-i18n/react-start` when you wire routing and the server entry.
+- **Solid** — `@wadiou/tanstack-i18n/solid` with `@wadiou/tanstack-i18n/solid-router` and `@wadiou/tanstack-i18n/solid-start` for the same roles.
 
 You do not need every subpath on day one. Export and peer details are in [Exports and peers](/reference/exports).
 
@@ -69,8 +69,8 @@ Bind it with `createLocaleRuntime` and export the runtime for your app.
 import {
   defineLocaleConfig,
   createLocaleRuntime,
-} from "@Wadiou/tanstack-i18n";
-import { acceptLanguage } from "@Wadiou/tanstack-i18n/adapters";
+} from "@wadiou/tanstack-i18n";
+import { acceptLanguage } from "@wadiou/tanstack-i18n/adapters";
 
 const config = defineLocaleConfig({
   locales: ["en", "ar"],

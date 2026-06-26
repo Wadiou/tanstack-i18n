@@ -1,5 +1,5 @@
-import { defineLocaleConfig } from "@Wadiou/tanstack-i18n";
-import { acceptLanguage, cookie } from "@Wadiou/tanstack-i18n/adapters";
+import { defineLocaleConfig } from "@wadiou/tanstack-i18n";
+import { acceptLanguage, cookie } from "@wadiou/tanstack-i18n/adapters";
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/constants/locales";
 
 export const config = defineLocaleConfig({

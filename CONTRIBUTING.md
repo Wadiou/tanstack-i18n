@@ -95,14 +95,14 @@ This repository uses [Changesets](https://github.com/changesets/changesets) to m
 
 ### Creating a Changeset (Humans)
 
-If your changes affect `@Wadiou/tanstack-i18n` and should trigger a release:
+If your changes affect `@wadiou/tanstack-i18n` and should trigger a release:
 
 1. Run the changesets CLI from the repository root:
    ```bash
    pnpm changeset
    ```
 2. Follow the interactive CLI prompts to select:
-   - The package to bump (`@Wadiou/tanstack-i18n`).
+   - The package to bump (`@wadiou/tanstack-i18n`).
    - The bump type (`patch`, `minor`, or `major`).
    - A detailed user-facing description of the change for the changelog.
 3. Commit the generated `.changeset/<random-name>.md` file alongside your changes.

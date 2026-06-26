@@ -1,6 +1,6 @@
 # react-start-use-intl
 
-A minimal example demonstrating how to integrate `@Wadiou/tanstack-i18n` with [use-intl](https://next-intl.dev/docs/environments/core-library) in a TanStack Start application.
+A minimal example demonstrating how to integrate `@wadiou/tanstack-i18n` with [use-intl](https://next-intl.dev/docs/environments/core-library) in a TanStack Start application.
 
 ## Features
 

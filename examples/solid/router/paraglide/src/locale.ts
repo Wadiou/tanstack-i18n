@@ -1,4 +1,4 @@
-import { createLocaleRuntime } from "@Wadiou/tanstack-i18n";
+import { createLocaleRuntime } from "@wadiou/tanstack-i18n";
 import { config } from "./locale-config";
 
 export const locale = createLocaleRuntime(config);

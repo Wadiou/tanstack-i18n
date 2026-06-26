@@ -26,7 +26,7 @@ Use a formal, descriptive name consisting of lowercase kebab-case words describi
 Write the changeset using the following structure:
 ```markdown
 ---
-"@Wadiou/tanstack-i18n": patch
+"@wadiou/tanstack-i18n": patch
 ---
 
 Detailed user-facing changelog description of the fix or feature.

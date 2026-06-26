@@ -15,7 +15,7 @@
     "postinstall": "tsr generate"
   },
   "dependencies": {
-    "@Wadiou/tanstack-i18n": "workspace:*",
+    "@wadiou/tanstack-i18n": "workspace:*",
     "@tanstack/solid-router": "^1.170.7",
     "solid-js": "^1.9.0",
     "@solid-primitives/i18n": "^2.2.0"
