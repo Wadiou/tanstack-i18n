@@ -30,3 +30,6 @@ allowBuilds:
   esbuild: true
   sharp: true
   workerd: true
+
+minimumReleaseAgeExclude:
+  - '@wadiou/tanstack-i18n@1.0.0'

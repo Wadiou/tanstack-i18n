@@ -14,7 +14,7 @@
 		"postinstall": "tsr generate && paraglide-js compile --project ./project.inlang"
 	},
 	"dependencies": {
-		"@wadiou/tanstack-i18n": "workspace:*",
+		"@wadiou/tanstack-i18n": "^1.0.0",
 		"@tanstack/react-router": "^1.168.18",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",

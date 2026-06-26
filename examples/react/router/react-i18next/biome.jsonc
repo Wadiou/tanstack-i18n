@@ -6,13 +6,5 @@
     "ultracite/biome/core",
     "ultracite/biome/react",
     "ultracite/biome/tanstack"
-  ],
-  "overrides": [
-    {
-      "includes": ["**/routeTree.gen.ts"],
-      "assist": { "enabled": false },
-      "formatter": { "enabled": false },
-      "linter": { "enabled": false }
-    }
   ]
 }

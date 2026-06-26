@@ -9,7 +9,7 @@
 		"examples/*/*/*"
 	],
 	"scripts": {
-		"build": "turbo build",
+		"build": "turbo build --filter @wadiou/tanstack-i18n && turbo build --filter=!@wadiou/tanstack-i18n",
 		"dev": "turbo run dev --ui=tui --filter=!example-*",
 		"check": "turbo run check",
 		"fix": "turbo run fix",
@@ -17,13 +17,15 @@
 		"test": "turbo run test",
 		"validate": "turbo run check typecheck test",
 		"clean": "turbo clean && rm -rf node_modules .turbo",
+		"preflight": "pnpm clean && pnpm install && pnpm build && pnpm validate",
 		"prepare": "husky && git config core.hooksPath .husky",
 		"commit": "cz",
 		"commit:file": "git commit -F .commit/message",
 		"docs:dev": "pnpm --dir apps/docs run dev",
 		"docs:preview": "pnpm --dir apps/docs run build && pnpm --dir apps/docs run start",
 		"version-packages": "changeset version",
-		"release-packages": "changeset publish"
+		"release-packages": "changeset publish",
+		"examples:pin": "node scripts/examples-pin.mjs"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",

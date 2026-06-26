@@ -13,13 +13,5 @@
         "noNamespaceImport": "off"
       }
     }
-  },
-  "overrides": [
-    {
-      "includes": ["**/routeTree.gen.ts"],
-      "assist": { "enabled": false },
-      "formatter": { "enabled": false },
-      "linter": { "enabled": false }
-    }
-  ]
+  }
 }

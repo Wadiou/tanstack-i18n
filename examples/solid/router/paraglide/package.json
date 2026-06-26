@@ -15,7 +15,7 @@
     "postinstall": "tsr generate && paraglide-js compile --project ./project.inlang"
   },
   "dependencies": {
-    "@wadiou/tanstack-i18n": "workspace:*",
+    "@wadiou/tanstack-i18n": "^1.0.0",
     "@tanstack/solid-router": "^1.170.7",
     "solid-js": "^1.9.0",
     "@inlang/paraglide-js": "^2.20.0"

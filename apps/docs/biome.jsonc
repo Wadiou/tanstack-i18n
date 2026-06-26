@@ -25,21 +25,21 @@
       }
     },
     {
-      "includes": ["**/routeTree.gen.ts"],
-      "assist": { "enabled": false },
-      "formatter": { "enabled": false },
-      "linter": { "enabled": false }
-    },
-    {
       "includes": [
         "scripts/**",
         "content/**/*.mdx",
         ".source/**",
         "src/styles/**/*"
       ],
-      "assist": { "enabled": false },
-      "formatter": { "enabled": false },
-      "linter": { "enabled": false }
+      "assist": {
+        "enabled": false
+      },
+      "formatter": {
+        "enabled": false
+      },
+      "linter": {
+        "enabled": false
+      }
     }
   ]
 }
