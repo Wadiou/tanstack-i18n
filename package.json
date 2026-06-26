@@ -23,10 +23,11 @@
 		"docs:dev": "pnpm --dir apps/docs run dev",
 		"docs:preview": "pnpm --dir apps/docs run build && pnpm --dir apps/docs run start",
 		"version-packages": "changeset version",
-		"release-packages": "pnpm --filter @wadiou/tanstack-i18n run build && changeset publish"
+		"release-packages": "changeset publish"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",
+		"@changesets/changelog-github": "^0.7.0",
 		"@changesets/cli": "^2.31.0",
 		"@commitlint/cli": "catalog:",
 		"@commitlint/config-conventional": "catalog:",
