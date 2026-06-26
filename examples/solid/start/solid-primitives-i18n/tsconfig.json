@@ -4,8 +4,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "vite": ["../../../../node_modules/vite/dist/node/index.d.ts"]
+      "@/*": ["./src/*"]
     },
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
