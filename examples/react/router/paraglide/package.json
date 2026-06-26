@@ -11,7 +11,7 @@
 		"fix": "ultracite fix .",
 		"clean": "rm -rf dist .turbo src/routeTree.gen.ts src/paraglide",
 		"typecheck": "tsc --noEmit",
-		"postinstall": "tsr generate"
+		"postinstall": "tsr generate && paraglide-js compile --project ./project.inlang"
 	},
 	"dependencies": {
 		"@Wadiou/tanstack-i18n": "workspace:*",
