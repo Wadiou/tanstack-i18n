@@ -4,5 +4,16 @@
 		"enabled": true,
 		"clientKind": "git",
 		"useIgnoreFile": true
-	}
+	},
+	"overrides": [
+		{
+			"includes": ["examples/**/*"],
+			"linter": {
+				"enabled": false
+			},
+			"formatter": {
+				"enabled": false
+			}
+		}
+	]
 }
