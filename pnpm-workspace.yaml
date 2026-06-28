@@ -15,21 +15,18 @@ overrides:
   '@types/react-dom': ^19.0.0
   # Replace deprecated glob@7 (and its transitive inflight@1) pulled in by commitizen.
   'commitizen>glob': '^13.0.0'
+  '@biomejs/biome': ^2.5.0
+  ultracite: ^7.6.3
 
 catalog:
-  '@biomejs/biome': ^2.5.0
   '@commitlint/cli': ^21.0.2
   '@commitlint/config-conventional': ^21.0.2
   '@commitlint/cz-commitlint': ^21.0.2
   commitizen: ^4.3.1
   husky: ^9.1.7
   lint-staged: ^15.5.2
-  ultracite: ^7.6.3
 
 allowBuilds:
   esbuild: true
   sharp: true
   workerd: true
-
-minimumReleaseAgeExclude:
-  - '@wadiou/tanstack-i18n@1.0.0'

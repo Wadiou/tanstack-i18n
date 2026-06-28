@@ -6,9 +6,6 @@ settings:
 
 catalogs:
   default:
-    '@biomejs/biome':
-      specifier: ^2.5.0
-      version: 2.5.0
     '@commitlint/cli':
       specifier: ^21.0.2
       version: 21.0.2
@@ -27,9 +24,6 @@ catalogs:
     lint-staged:
       specifier: ^15.5.2
       version: 15.5.2
-    ultracite:
-      specifier: ^7.6.3
-      version: 7.8.3
 
 overrides:
   react: ^19.2.0
@@ -37,13 +31,15 @@ overrides:
   '@types/react': ^19.0.0
   '@types/react-dom': ^19.0.0
   commitizen>glob: ^13.0.0
+  '@biomejs/biome': ^2.5.0
+  ultracite: ^7.6.3
 
 importers:
 
   .:
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@changesets/changelog-github':
         specifier: ^0.7.0
@@ -119,7 +115,7 @@ importers:
         version: 19.2.7(react@19.2.7)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@cloudflare/vite-plugin':
         specifier: ^1.42.2
@@ -155,7 +151,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -204,7 +200,7 @@ importers:
         version: 19.2.7(react@19.2.7)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@tailwindcss/vite':
         specifier: ^4.3.0
@@ -237,7 +233,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -262,7 +258,7 @@ importers:
         version: 19.2.7(react@19.2.7)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@tanstack/router-plugin':
         specifier: ^1.168.18
@@ -280,7 +276,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -308,7 +304,7 @@ importers:
         version: 15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@tanstack/router-plugin':
         specifier: ^1.168.18
@@ -326,7 +322,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -351,7 +347,7 @@ importers:
         version: 7.1.14(react@19.2.7)(typescript@5.9.3)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@tanstack/router-plugin':
         specifier: ^1.168.18
@@ -369,7 +365,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -394,7 +390,7 @@ importers:
         version: 4.13.0(react@19.2.7)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@tanstack/router-plugin':
         specifier: ^1.168.18
@@ -412,7 +408,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -440,7 +436,7 @@ importers:
         version: 4.13.0(react@19.2.7)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@types/node':
         specifier: ^26.0.0
@@ -461,7 +457,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -489,7 +485,7 @@ importers:
         version: 19.2.7(react@19.2.7)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@types/node':
         specifier: ^26.0.0
@@ -510,7 +506,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -541,7 +537,7 @@ importers:
         version: 15.7.4(i18next@24.2.3(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@types/node':
         specifier: ^26.0.0
@@ -562,7 +558,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -590,7 +586,7 @@ importers:
         version: 7.1.14(react@19.2.7)(typescript@5.9.3)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@types/node':
         specifier: ^26.0.0
@@ -611,7 +607,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -639,7 +635,7 @@ importers:
         version: 4.13.0(react@19.2.7)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@types/node':
         specifier: ^26.0.0
@@ -660,7 +656,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -688,7 +684,7 @@ importers:
         version: 4.13.0(react@19.2.7)
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@types/node':
         specifier: ^26.0.0
@@ -709,7 +705,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -731,7 +727,7 @@ importers:
         version: 1.9.13
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@tanstack/router-plugin':
         specifier: ^1.168.18
@@ -743,7 +739,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -768,7 +764,7 @@ importers:
         version: 1.9.13
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@tanstack/router-plugin':
         specifier: ^1.168.18
@@ -780,7 +776,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -808,7 +804,7 @@ importers:
         version: 1.9.13
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@types/node':
         specifier: ^26.0.0
@@ -820,7 +816,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -848,7 +844,7 @@ importers:
         version: 1.9.13
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@types/node':
         specifier: ^26.0.0
@@ -860,7 +856,7 @@ importers:
         specifier: ^5
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vite:
         specifier: ^8.0.0
@@ -872,7 +868,7 @@ importers:
   packages/tanstack-i18n:
     devDependencies:
       '@biomejs/biome':
-        specifier: 'catalog:'
+        specifier: ^2.5.0
         version: 2.5.0
       '@tanstack/react-router':
         specifier: ^1.170.7
@@ -899,7 +895,7 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
       ultracite:
-        specifier: 'catalog:'
+        specifier: ^7.6.3
         version: 7.8.3
       vitest:
         specifier: ^4.1.9

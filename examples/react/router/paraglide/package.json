@@ -1,33 +1,33 @@
 {
-	"name": "example-react-router-paraglide",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"scripts": {
-		"dev": "vite",
-		"build": "vite build && tsc --noEmit",
-		"preview": "vite preview",
-		"check": "ultracite check .",
-		"fix": "ultracite fix .",
-		"clean": "rm -rf dist .turbo src/routeTree.gen.ts src/paraglide",
-		"typecheck": "tsc --noEmit",
-		"postinstall": "tsr generate && paraglide-js compile --project ./project.inlang"
-	},
-	"dependencies": {
-		"@wadiou/tanstack-i18n": "^1.0.0",
-		"@tanstack/react-router": "^1.168.18",
-		"react": "^19.0.0",
-		"react-dom": "^19.0.0",
-		"@inlang/paraglide-js": "^2.20.0"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "catalog:",
-		"@tanstack/router-plugin": "^1.168.18",
-		"@types/react": "^19.0.8",
-		"@types/react-dom": "^19.0.3",
-		"@vitejs/plugin-react": "^6.0.1",
-		"typescript": "^5.7.3",
-		"ultracite": "catalog:",
-		"vite": "^8.0.0"
-	}
+  "name": "example-react-router-paraglide",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc --noEmit",
+    "preview": "vite preview",
+    "check": "ultracite check .",
+    "fix": "ultracite fix .",
+    "clean": "rm -rf dist .turbo src/routeTree.gen.ts src/paraglide",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "tsr generate && paraglide-js compile --project ./project.inlang"
+  },
+  "dependencies": {
+    "@wadiou/tanstack-i18n": "^1.0.0",
+    "@tanstack/react-router": "^1.168.18",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@inlang/paraglide-js": "^2.20.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.0",
+    "@tanstack/router-plugin": "^1.168.18",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^5.7.3",
+    "ultracite": "^7.6.3",
+    "vite": "^8.0.0"
+  }
 }

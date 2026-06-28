@@ -3,4 +3,3 @@ dist
 .turbo
 node_modules
 src/routeTree.gen.ts
-src/paraglide

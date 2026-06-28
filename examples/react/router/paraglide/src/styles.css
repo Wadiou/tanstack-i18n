@@ -1,100 +1,100 @@
 :root {
-	--bg-color: #fafafa;
-	--text-color: #111;
-	--border-color: #ddd;
-	--link-color: #2563eb;
-	--footer-color: #666;
-	--input-bg: #ffffff;
-	--input-text: inherit;
-	--input-border: #ccc;
+  --bg-color: #fafafa;
+  --text-color: #111;
+  --border-color: #ddd;
+  --link-color: #2563eb;
+  --footer-color: #666;
+  --input-bg: #ffffff;
+  --input-text: inherit;
+  --input-border: #ccc;
 }
 
 @media (prefers-color-scheme: dark) {
-	:root {
-		--bg-color: #121212;
-		--text-color: #e5e5e5;
-		--border-color: #333333;
-		--link-color: #60a5fa;
-		--footer-color: #a3a3a3;
-		--input-bg: #1e1e1e;
-		--input-text: #e5e5e5;
-		--input-border: #4b5563;
-	}
+  :root {
+    --bg-color: #121212;
+    --text-color: #e5e5e5;
+    --border-color: #333333;
+    --link-color: #60a5fa;
+    --footer-color: #a3a3a3;
+    --input-bg: #1e1e1e;
+    --input-text: #e5e5e5;
+    --input-border: #4b5563;
+  }
 }
 
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	margin: 0;
-	font-family: system-ui, -apple-system, sans-serif;
-	line-height: 1.5;
-	color: var(--text-color);
-	background: var(--bg-color);
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  color: var(--text-color);
+  background: var(--bg-color);
 }
 
 [dir="rtl"] body {
-	font-family: system-ui, "Segoe UI", Tahoma, sans-serif;
+  font-family: system-ui, "Segoe UI", Tahoma, sans-serif;
 }
 
 .layout {
-	max-width: 40rem;
-	padding: 1.5rem;
-	margin: 0 auto;
+  max-width: 40rem;
+  padding: 1.5rem;
+  margin: 0 auto;
 }
 
 header {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 1rem;
-	align-items: center;
-	justify-content: space-between;
-	padding-bottom: 1rem;
-	margin-bottom: 2rem;
-	border-bottom: 1px solid var(--border-color);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
 nav {
-	display: flex;
-	gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
 nav a {
-	color: var(--link-color);
-	text-decoration: none;
+  color: var(--link-color);
+  text-decoration: none;
 }
 
 nav a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .hero {
-	margin: 0 0 1rem;
-	font-size: 1.75rem;
-	font-weight: 600;
+  margin: 0 0 1rem;
+  font-size: 1.75rem;
+  font-weight: 600;
 }
 
 .switcher {
-	display: flex;
-	gap: 0.5rem;
-	align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .switcher select {
-	padding: 0.35rem 0.5rem;
-	font: inherit;
-	background: var(--input-bg);
-	color: var(--input-text);
-	border: 1px solid var(--input-border);
-	border-radius: 4px;
+  padding: 0.35rem 0.5rem;
+  font: inherit;
+  color: var(--input-text);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
 }
 
 .example-footer {
-	max-width: 40rem;
-	margin: 2rem auto 0;
-	padding: 1rem 1.5rem;
-	border-top: 1px solid var(--border-color);
-	color: var(--footer-color);
-	font-size: 0.875rem;
+  max-width: 40rem;
+  padding: 1rem 1.5rem;
+  margin: 2rem auto 0;
+  font-size: 0.875rem;
+  color: var(--footer-color);
+  border-top: 1px solid var(--border-color);
 }
