@@ -9,7 +9,7 @@
     "dev": "vite dev",
     "check": "ultracite check .",
     "fix": "ultracite fix .",
-    "clean": "rm -rf .output .turbo dist .source src/routeTree.gen.ts",
+    "clean": "rm -rf .output .turbo dist .source src/routeTree.gen.ts node_modules .tanstack",
     "typecheck": "fumadocs-mdx && tsc --noEmit",
     "types:check": "fumadocs-mdx && tsc --noEmit",
     "postinstall": "tsr generate"

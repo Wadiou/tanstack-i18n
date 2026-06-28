@@ -81,7 +81,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.core.json && tsc -p tsconfig.react.json && tsc -p tsconfig.solid.json",
     "dev": "tsc -p tsconfig.core.json --watch",
-    "clean": "rm -rf dist tsconfig.*.tsbuildinfo .turbo",
+    "clean": "rm -rf dist tsconfig.*tsbuildinfo .turbo node_modules",
     "check": "ultracite check .",
     "fix": "ultracite fix .",
     "typecheck": "tsc --noEmit -p tsconfig.core.json && tsc --noEmit -p tsconfig.react.json && tsc --noEmit -p tsconfig.solid.json && tsc --noEmit -p tsconfig.test.json",

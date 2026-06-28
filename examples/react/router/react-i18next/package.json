@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "check": "ultracite check .",
     "fix": "ultracite fix .",
-    "clean": "rm -rf dist .turbo src/routeTree.gen.ts",
+    "clean": "rm -rf dist .turbo src/routeTree.gen.ts node_modules .tanstack",
     "typecheck": "tsc --noEmit",
     "postinstall": "tsr generate"
   },
