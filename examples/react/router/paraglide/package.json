@@ -14,14 +14,15 @@
     "postinstall": "tsr generate && paraglide-js compile --project ./project.inlang"
   },
   "dependencies": {
-    "@wadiou/tanstack-i18n": "^1.0.0",
+    "@inlang/paraglide-js": "^2.20.0",
     "@tanstack/react-router": "^1.168.18",
+    "@wadiou/tanstack-i18n": "^1.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "@inlang/paraglide-js": "^2.20.0"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.0",
+    "@tanstack/router-cli": "1.167.17",
     "@tanstack/router-plugin": "^1.168.18",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",

@@ -25,7 +25,8 @@
 		"docs:preview": "pnpm --dir apps/docs run build && pnpm --dir apps/docs run start",
 		"version-packages": "changeset version",
 		"release-packages": "changeset publish",
-		"examples:pin": "node scripts/examples-pin.mjs"
+		"examples:pin": "pnpm -r --filter \"./examples/**\" update",
+		"examples:add": "pnpm -r --filter \"./examples/**\" add"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",

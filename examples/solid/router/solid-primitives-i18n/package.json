@@ -15,18 +15,19 @@
     "postinstall": "tsr generate"
   },
   "dependencies": {
-    "@wadiou/tanstack-i18n": "^1.0.0",
+    "@solid-primitives/i18n": "^2.2.0",
     "@tanstack/solid-router": "^1.170.7",
-    "solid-js": "^1.9.0",
-    "@solid-primitives/i18n": "^2.2.0"
+    "@wadiou/tanstack-i18n": "^1.0.0",
+    "solid-js": "^1.9.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.0",
+    "@tanstack/router-cli": "1.167.17",
     "@tanstack/router-plugin": "^1.168.18",
     "@types/node": "^26.0.0",
-    "vite-plugin-solid": "^2.11.0",
     "typescript": "^5",
     "ultracite": "^7.6.3",
-    "vite": "^8.0.0"
+    "vite": "^8.0.0",
+    "vite-plugin-solid": "^2.11.0"
   }
 }
